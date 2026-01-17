@@ -12,22 +12,31 @@ qt_add_executable(appAudioMixer
     main.cpp
 )
 
+# NO IDEA, WHY IT IS NOT POSSIBLE TO REGISTER THEME SINGLETON IN THIS PROJECT
+# I HAVE TRIED ALSO QMLDIR APPROACH AND IT ALSO DOES NOT WORK
+#
+# list(APPEND QML_IMPORT_PATH gui/theme/Theme.qml)
+# set(QML_IMPORT_PATH ${CMAKE_SOURCE_DIR}/qml ${CMAKE_BINARY_DIR}/imports CACHE STRING "" FORCE)
+
+# set_source_files_properties(gui/theme/Theme.qml
+#    PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
+
 qt_add_qml_module(appAudioMixer
     URI AudioMixer
     QML_FILES
         gui/Main.qml
-        QML_FILES gui/Mixer.qml
-        QML_FILES gui/ChannelStrip.qml
-        QML_FILES gui/controls/Knob.qml
-        QML_FILES gui/controls/VolumeFader.qml
-        QML_FILES gui/sections/EQSection.qml
-        QML_FILES gui/Header.qml
-        QML_FILES gui/Transport.qml
-        QML_FILES gui/controls/InputSelector.qml
-        QML_FILES
-        QML_FILES gui/controls/MuteSoloRow.qml
-        QML_FILES gui/controls/MixerButton.qml
-        RESOURCES .gitignore
+        gui/controls/Knob.qml
+        gui/controls/VolumeFader.qml
+        gui/sections/EQSection.qml
+        gui/components/Header.qml
+        gui/components/Transport.qml
+        gui/components/Mixer.qml
+        gui/controls/InputSelector.qml
+        gui/sections/MuteSoloRow.qml
+        gui/sections/FxSendSection.qml
+        gui/controls/MixerButton.qml
+        gui/theme/Theme.qml
+        RESOURCES gui/theme/qmldir
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

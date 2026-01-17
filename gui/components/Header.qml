@@ -1,4 +1,4 @@
-import QtQuick
+import QtQuick 2.15
 
 Item {
     id: container
@@ -6,10 +6,10 @@ Item {
     Rectangle {
         id: root
         anchors.fill: parent
-        color: "darkgrey"
+        color: Theme.backgroundColor
 
         border {
-            color: "grey"
+            color: Theme.borderColor
             width: parent.width * 0.005
         }
     }
