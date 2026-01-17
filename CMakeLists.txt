@@ -21,6 +21,13 @@ qt_add_qml_module(appAudioMixer
         QML_FILES gui/controls/Knob.qml
         QML_FILES gui/controls/VolumeFader.qml
         QML_FILES gui/sections/EQSection.qml
+        QML_FILES gui/Header.qml
+        QML_FILES gui/Transport.qml
+        QML_FILES gui/controls/InputSelector.qml
+        QML_FILES
+        QML_FILES gui/controls/MuteSoloRow.qml
+        QML_FILES gui/controls/MixerButton.qml
+        RESOURCES .gitignore
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
