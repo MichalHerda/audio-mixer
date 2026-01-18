@@ -9,6 +9,8 @@ Window {
     id: root
     width: 640
     height: 480
+    minimumHeight: 400
+    minimumWidth: 320
     visible: true
     title: qsTr("Audio Mixer")
 

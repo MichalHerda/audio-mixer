@@ -28,6 +28,7 @@ qt_add_qml_module(appAudioMixer
         gui/components/Header.qml
         gui/components/Transport.qml
         gui/components/Mixer.qml
+        gui/components/ChannelStrip.qml
         gui/controls/InputSelector.qml
         gui/sections/MuteSoloRow.qml
         gui/sections/FxSendSection.qml
