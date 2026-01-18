@@ -12,14 +12,11 @@ qt_add_executable(appAudioMixer
     main.cpp
 )
 
-# NO IDEA, WHY IT IS NOT POSSIBLE TO REGISTER THEME SINGLETON IN THIS PROJECT
-# I HAVE TRIED ALSO QMLDIR APPROACH AND IT ALSO DOES NOT WORK
-#
-# list(APPEND QML_IMPORT_PATH gui/theme/Theme.qml)
-# set(QML_IMPORT_PATH ${CMAKE_SOURCE_DIR}/qml ${CMAKE_BINARY_DIR}/imports CACHE STRING "" FORCE)
-
-# set_source_files_properties(gui/theme/Theme.qml
-#    PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
+set_source_files_properties(
+    gui/themes/Themes.qml
+    PROPERTIES
+        QT_QML_SINGLETON_TYPE TRUE
+)
 
 qt_add_qml_module(appAudioMixer
     URI AudioMixer
@@ -35,8 +32,7 @@ qt_add_qml_module(appAudioMixer
         gui/sections/MuteSoloRow.qml
         gui/sections/FxSendSection.qml
         gui/controls/MixerButton.qml
-        gui/theme/Theme.qml
-        RESOURCES gui/theme/qmldir
+        gui/themes/Themes.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

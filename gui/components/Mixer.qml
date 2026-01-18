@@ -1,4 +1,5 @@
 import QtQuick 2.15
+import AudioMixer
 
 Item {
     id: container
@@ -6,10 +7,10 @@ Item {
     Rectangle {
         id: root
         anchors.fill: parent
-        color: Theme.backgroundColor
+        color: Themes.backgroundColor
 
         border {
-            color: Theme.borderColor
+            color: Themes.borderColor
             width: parent.width * 0.005
         }
     }
