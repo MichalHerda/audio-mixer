@@ -7,8 +7,8 @@ import "./components"
 
 Window {
     id: root
-    width: 800
-    height: 640
+    width: 960
+    height: 800
     minimumHeight: 600
     minimumWidth: 320
     visible: true

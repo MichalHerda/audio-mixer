@@ -26,12 +26,21 @@ Item {
         spacing: channelSpacing
         padding: channelPadding
 
-        MixerButton {
-            id: mixerButton
+        //MixerButton {
+        //    id: mixerButton
+        //}
+
+        MuteSoloRow {
+            id: muteSoloRow
+            width: channel.width - channelPadding * 2
+            anchors.horizontalCenter: channelColumn.horizontalCenter
+            //width: channelColumn * 0.666
+
         }
 
         Knob {
             id: gainKnob
+            anchors.horizontalCenter: channelColumn.horizontalCenter
             label: "GAIN"
             indicatorColor: "red"
             from: 20
@@ -41,10 +50,12 @@ Item {
 
         EQSection {
             id: eqSection
+            anchors.horizontalCenter: channelColumn.horizontalCenter
         }
 
         VolumeFader {
             id: volumeFader
+            anchors.horizontalCenter: channelColumn.horizontalCenter
         }
     }
 }

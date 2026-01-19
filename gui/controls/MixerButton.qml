@@ -12,6 +12,9 @@ Item {
     property color lightColorBorder: "grey"
     property color textColor: "grey"
     property string buttonText: "SOLO"
+    property int minTextWidth: implicitWidth * 0.75
+    property bool compactLabel: buttonTxt.width < minTextWidth
+
     signal mixerButtonClicked()
 
     Rectangle {
@@ -43,10 +46,17 @@ Item {
             width: mixerButton.width * 0.8
             height:  mixerButton.height * 0.5
             visible: text.length < 6
+
             y: mixerButton.height * 0.425
-            x: mixerButton.width * 0.175
-            text: buttonText
+            x: compactLabel ? mixerButton.width * 0.35 : mixerButton.width * 0.175
+
+            text: { if (compactLabel)
+                    return buttonText.length > 0 ? buttonText[0] : ""
+                    return buttonText
+            }
+
             color: textColor
+            clip: true
         }
 
         MouseArea {
