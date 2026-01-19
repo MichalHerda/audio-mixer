@@ -26,6 +26,10 @@ Item {
         spacing: channelSpacing
         padding: channelPadding
 
+        MixerButton {
+            id: mixerButton
+        }
+
         Knob {
             id: gainKnob
             label: "GAIN"
