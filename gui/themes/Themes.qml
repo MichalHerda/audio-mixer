@@ -6,6 +6,6 @@ import QtQml
 QtObject {
     id: themes
 
-    readonly property color backgroundColor: "#d3d3d3"
+    readonly property color backgroundColor: "black"
     readonly property color borderColor: "#808080"
 }

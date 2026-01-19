@@ -3,14 +3,16 @@ import QtQuick.Controls 2.15
 
 Item {
     id: fader
-    implicitWidth: 32
-    implicitHeight: 64
+    implicitWidth: 64
+    implicitHeight: 208
 
     /* ===== API ===== */
     property real from: 0.0
     property real to: 1.0
     property real value: slider.value
     property string label: "VOL"
+
+    property int volSectionSpacing: 8
 
     //signal valueChanged(real value)
 
@@ -29,21 +31,23 @@ Item {
 
     /* ===== VISUAL ===== */
     Column {
+        id: volumeFaderColumn
         anchors.fill: parent
-        anchors.margins: 4
-        spacing: 4
+        //anchors.margins: 4
+        spacing: volSectionSpacing
 
         Item {
             id: trackArea
-            implicitWidth: 16
-            implicitHeight: 96
+            width: volumeFaderColumn.width * 0.2
+            height: volumeFaderColumn.height * 0.75
+            anchors.horizontalCenter: parent.horizontalCenter
 
             Rectangle {
                 id: track
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: parent.top
-                implicitWidth: 4
-                implicitHeight: 96
+                width:  trackArea.width * 0.25
+                height: trackArea.height
                 color: "#444"
                 radius: 2
             }

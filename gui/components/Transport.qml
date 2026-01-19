@@ -11,7 +11,7 @@ Item {
 
         border {
             color: Themes.borderColor
-            width: parent.width * 0.005
+            width: 1
         }
     }
 }

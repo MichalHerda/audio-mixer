@@ -6,6 +6,10 @@ import "../components"
 Rectangle {
     id: mixer
     color: Themes.backgroundColor
+    border {
+        color: Themes.borderColor
+        width: 1
+    }
 
     RowLayout {
         id: channelsRow

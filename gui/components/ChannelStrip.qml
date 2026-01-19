@@ -1,11 +1,14 @@
 import QtQuick 2.15
-import QtQuick.Layouts
 
 import "../sections"
 import "../controls"
 
 Item {
     id: channel
+    implicitHeight: 600
+    implicitWidth: 64
+    property int channelSpacing: 8
+    property int channelPadding: 4
 
     Rectangle {
         anchors.fill: parent
@@ -14,15 +17,16 @@ Item {
         border.width: 1
     }
 
-    ColumnLayout {
+    Column {
         id: channelColumn
-        Layout.alignment: Qt.AlignHCenter
-        Layout.margins: 8
-        spacing: 2
+        anchors.horizontalCenter: channel.horizontalCenter
+        spacing: channelSpacing
+        padding: channelPadding
 
         Knob {
             id: gainKnob
             label: "GAIN"
+            indicatorColor: "red"
             from: 20
             to: 20000
             value: 1000
@@ -32,8 +36,8 @@ Item {
             id: eqSection
         }
 
-        //VolumeFader {
-        //    id: volumeFader
-        //}
+        VolumeFader {
+            id: volumeFader
+        }
     }
 }

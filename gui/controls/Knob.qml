@@ -6,7 +6,6 @@ Item {
     implicitWidth: 64
     implicitHeight: 64
 
-    /* ===== API ===== */
     property real from: 0.0
     property real to: 1.0
     property real value: slider.value
@@ -50,7 +49,6 @@ Item {
             width: parent.height * 0.6
             anchors.horizontalCenter: parent.horizontalCenter
 
-            /* body */
             Rectangle {
                 id: knobBody
                 anchors.centerIn: parent
@@ -61,14 +59,12 @@ Item {
                 border.color: borderColor
                 border.width: 1
 
-                /* indicator */
                 Rectangle {
                     id: knobIndicator
                     anchors.horizontalCenter: knobBody.horizontalCenter
                     anchors.top: knobBody.top
                     height: knobBody.height * 0.45
                     width: knobBody.width * 0.1
-                    //radius: 1
                     color: indicatorColor
 
                     transform: Rotation {
@@ -79,7 +75,6 @@ Item {
                 }
             }
 
-            /* ===== INPUT ===== */
             MouseArea {
                 anchors.fill: parent
                 hoverEnabled: true

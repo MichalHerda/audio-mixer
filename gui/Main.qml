@@ -24,10 +24,6 @@ Window {
             SplitView.preferredHeight: 60
             SplitView.minimumHeight: 40
             SplitView.maximumHeight: 80
-
-            Knob {
-
-            }
         }
 
         Transport {
