@@ -13,6 +13,8 @@ Item {
     readonly property real minW: 80
     readonly property real maxW: 150
 
+    property alias channelDisplayedName: channelName.text
+
     Rectangle {
         anchors.fill: parent
         color: "#1e1e1e"
@@ -25,17 +27,19 @@ Item {
         anchors.horizontalCenter: channel.horizontalCenter
         spacing: channelSpacing
         padding: channelPadding
+        topPadding: channelPadding * 2
 
-        //MixerButton {
-        //    id: mixerButton
-        //}
+        MixerMiniDisplay {
+            id: channelName
+            width: channel.width - channelPadding * 4
+            anchors.horizontalCenter: channelColumn.horizontalCenter
+            text: "Audio Mixer UI - designed by Michal Herda 2026"
+        }
 
         MuteSoloRow {
             id: muteSoloRow
             width: channel.width - channelPadding * 2
             anchors.horizontalCenter: channelColumn.horizontalCenter
-            //width: channelColumn * 0.666
-
         }
 
         Knob {
