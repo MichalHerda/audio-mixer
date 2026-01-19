@@ -1,10 +1,11 @@
 import QtQuick 2.15
+import QtQuick.Layouts
+
 import "../sections"
+import "../controls"
 
 Item {
     id: channel
-    //width: 100
-    //implicitHeight: 300
 
     Rectangle {
         anchors.fill: parent
@@ -13,15 +14,26 @@ Item {
         border.width: 1
     }
 
-    Column {
+    ColumnLayout {
         id: channelColumn
-        anchors.fill: parent
-        anchors.margins: 8
-        spacing: 16
+        Layout.alignment: Qt.AlignHCenter
+        Layout.margins: 8
+        spacing: 2
+
+        Knob {
+            id: gainKnob
+            label: "GAIN"
+            from: 20
+            to: 20000
+            value: 1000
+        }
 
         EQSection {
-            height: channelColumn.height
-            width: channelColumn.width
+            id: eqSection
         }
+
+        //VolumeFader {
+        //    id: volumeFader
+        //}
     }
 }

@@ -7,9 +7,9 @@ import "./components"
 
 Window {
     id: root
-    width: 640
-    height: 480
-    minimumHeight: 400
+    width: 800
+    height: 640
+    minimumHeight: 600
     minimumWidth: 320
     visible: true
     title: qsTr("Audio Mixer")
@@ -24,6 +24,10 @@ Window {
             SplitView.preferredHeight: 60
             SplitView.minimumHeight: 40
             SplitView.maximumHeight: 80
+
+            Knob {
+
+            }
         }
 
         Transport {

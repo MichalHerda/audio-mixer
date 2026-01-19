@@ -1,15 +1,14 @@
 import QtQuick 2.15
+import QtQuick.Layouts
 import "../controls"
 
 Item {
     id: eq
-    //width: 80
-    //height: 200
+    implicitHeight: 84
 
-    Column {
-        anchors.centerIn: parent
-        height: parent.height
-        spacing: 12
+    ColumnLayout {
+        //anchors.fill: parent
+        spacing: 24
 
         Knob {
             label: "HIGH"

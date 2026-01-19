@@ -1,15 +1,17 @@
 import QtQuick 2.15
 import QtQuick.Layouts
+import AudioMixer
 import "../components"
 
-Item {
+Rectangle {
     id: mixer
+    color: Themes.backgroundColor
 
     RowLayout {
         id: channelsRow
         anchors.fill: parent
-        anchors.margins: 5              //Math.min(mixer.width * 0.01, mixer.height * 0.01)
-        spacing: 5                      //Math.min(mixer.width * 0.01, mixer.height * 0.01)
+        //anchors.margins: 5
+        spacing: 5
         Layout.alignment: Qt.AlignLeft
         Layout.fillWidth: false
 

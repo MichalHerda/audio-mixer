@@ -3,16 +3,20 @@ import QtQuick.Controls 2.15
 
 Item {
     id: knob
-    width: 64
-    height: 80
+    implicitWidth: 64
+    implicitHeight: 64
 
     /* ===== API ===== */
     property real from: 0.0
     property real to: 1.0
     property real value: slider.value
     property string label: ""
+    property color knobColor: "black"
+    property color borderColor: "grey"
+    property color indicatorColor: "grey"
+    property color labelColor: "grey"
 
-    //signal valueChanged(real value)
+    signal sliderValueChanged(real value)
 
     // knob range
     readonly property real minAngle: -135
@@ -32,42 +36,46 @@ Item {
         to: knob.to
         value: knob.from
 
-        //onValueChanged: knob.valueChanged(value)
+        onValueChanged: knob.sliderValueChanged(value)
     }
 
     /* ===== VISUAL ===== */
     Column {
-        anchors.centerIn: parent
-        spacing: 6
+        anchors.fill: parent
+        spacing: parent.height * 0.1
 
         Item {
             id: knobArea
-            width: 48
-            height: 48
+            height: parent.height * 0.6
+            width: parent.height * 0.6
+            anchors.horizontalCenter: parent.horizontalCenter
 
             /* body */
             Rectangle {
-                anchors.fill: parent
-                radius: width / 2
-                color: "#2b2b2b"
-                border.color: "#555"
+                id: knobBody
+                anchors.centerIn: parent
+                height: parent.height * 0.9
+                width: parent.width * 0.9
+                radius: width * 0.5
+                color: knobColor
+                border.color: borderColor
                 border.width: 1
-            }
 
-            /* indicator */
-            Rectangle {
-                width: 2
-                height: parent.height / 2 - 6
-                radius: 1
-                color: "#e0e0e0"
+                /* indicator */
+                Rectangle {
+                    id: knobIndicator
+                    anchors.horizontalCenter: knobBody.horizontalCenter
+                    anchors.top: knobBody.top
+                    height: knobBody.height * 0.45
+                    width: knobBody.width * 0.1
+                    //radius: 1
+                    color: indicatorColor
 
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.top: parent.verticalCenter
-
-                transform: Rotation {
-                    origin.x: 1
-                    origin.y: parent.height
-                    angle: valueToAngle(slider.value)
+                    transform: Rotation {
+                        origin.x: knobIndicator.width * 0.5
+                        origin.y: knobIndicator.height
+                        angle: valueToAngle(slider.value)
+                    }
                 }
             }
 
@@ -80,10 +88,13 @@ Item {
                 property real startValue
 
                 onPressed: {
-                    startValue = slider.value
+                    console.log("onPressed")
+                    //startValue = slider.value
                 }
 
                 onPositionChanged: {
+                    console.log("onPositionChanged")
+                    /*
                     if (!pressed) return
 
                     let delta = -mouse.y + mouse.previousY
@@ -96,23 +107,29 @@ Item {
                         to,
                         Math.max(from, slider.value + delta * sensitivity)
                     )
+                    */
                 }
 
                 onWheel: {
+                    console.log("onWheel")
+                    /*
                     let step = (to - from) / 100
                     slider.value += wheel.angleDelta.y > 0 ? step : -step
+                    */
                 }
             }
         }
 
-        /* label */
         Text {
+            id: knobLabel
+            height: parent.height * 0.3
+            width: parent.width * 0.8
+            anchors.horizontalCenter: parent.horizontalCenter
             visible: label.length > 0
             text: label
             font.pixelSize: 10
-            color: "#aaa"
+            color: labelColor
             horizontalAlignment: Text.AlignHCenter
-            width: parent.width
         }
     }
 }
