@@ -11,28 +11,33 @@ Rectangle {
         width: 1
     }
 
-    RowLayout {
-        id: channelsRow
+    Flickable {
+        id: flick
         anchors.fill: parent
-        //anchors.margins: 5
-        spacing: 5
-        Layout.alignment: Qt.AlignLeft
-        Layout.fillWidth: false
 
-        Repeater {
-            model: 4                                                // mockup - for debugging UI
-            ChannelStrip {
-                Layout.preferredWidth: 120
-                Layout.minimumWidth: 80
-                Layout.maximumWidth: 200
-                Layout.fillHeight: true
-                Layout.fillWidth: false
+        contentWidth: channelsRow.width
+        contentHeight: height
+
+        flickableDirection: Flickable.HorizontalFlick
+        clip: true
+
+        Row {
+            id: channelsRow
+            spacing: 5
+            anchors.left: parent.left
+
+            Repeater {
+                model: 8                                                // mock
+                ChannelStrip {
+                    height: mixer.height
+                    width: Math.max(minW, Math.min(maxW, mixer.width * 0.2))
+                }
             }
-        }
 
-        Item {
-            id: separator
-            Layout.fillWidth: true
+            Item {
+                id: separator
+                Layout.fillWidth: true
+            }
         }
     }
 }

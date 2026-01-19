@@ -10,6 +10,9 @@ Item {
     property int channelSpacing: 8
     property int channelPadding: 4
 
+    readonly property real minW: 80
+    readonly property real maxW: 150
+
     Rectangle {
         anchors.fill: parent
         color: "#1e1e1e"
