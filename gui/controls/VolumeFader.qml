@@ -4,7 +4,7 @@ import QtQuick.Controls 2.15
 Item {
     id: fader
     implicitWidth: 64
-    implicitHeight: 208
+    implicitHeight: 224
 
     /* ===== API ===== */
     property real from: 0.0
@@ -12,7 +12,7 @@ Item {
     property real value: slider.value
     property string label: "VOL"
 
-    property int volSectionSpacing: 8
+    property int volSectionSpacing: 12
 
     //signal valueChanged(real value)
 
@@ -33,12 +33,11 @@ Item {
     Column {
         id: volumeFaderColumn
         anchors.fill: parent
-        //anchors.margins: 4
         spacing: volSectionSpacing
 
         Item {
             id: trackArea
-            width: volumeFaderColumn.width * 0.2
+            width: volumeFaderColumn.width * 0.3
             height: volumeFaderColumn.height * 0.75
             anchors.horizontalCenter: parent.horizontalCenter
 
@@ -54,31 +53,36 @@ Item {
 
             Rectangle {
                 id: handle
-                implicitWidth: 16
-                implicitHeight: 16
+                implicitWidth: 20
+                implicitHeight: 20
                 radius: 4
-                color: "#e0e0e0"
+                color: "#708090"
 
                 y: trackArea.height * (1 - (slider.value - from)/(to - from)) - height/2
                 anchors.horizontalCenter: parent.horizontalCenter
             }
 
             MouseArea {
-                anchors.fill: parent
+                height: trackArea.height
+                width: trackArea.width * 5
+                anchors.horizontalCenter: parent.horizontalCenter
                 hoverEnabled: true
+                preventStealing: true
                 cursorShape: Qt.SizeVerCursor
 
                 property real startValue
 
-                onPressed: startValue = slider.value
+                onPressed: function(mouse) {
+                    startValue = slider.value
+                }
 
-                onPositionChanged: {
+                onPositionChanged: function(mouse) {
                     if (!pressed) return
                     let newValue = to - (mouse.y / trackArea.height) * (to - from)
                     slider.value = Math.min(to, Math.max(from, newValue))
                 }
 
-                onWheel: {
+                onWheel: function(wheel) {
                     let step = (to - from) / 100
                     slider.value += wheel.angleDelta.y > 0 ? step : -step
                 }

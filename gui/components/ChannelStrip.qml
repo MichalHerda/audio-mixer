@@ -7,7 +7,7 @@ Item {
     id: channel
     implicitHeight: 600
     implicitWidth: 64
-    property int channelSpacing: 8
+    property int channelSpacing: 16
     property int channelPadding: 4
 
     readonly property real minW: 80
