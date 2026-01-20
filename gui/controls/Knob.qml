@@ -3,6 +3,7 @@ import QtQuick.Controls 2.15
 
 Item {
     id: knob
+    focus: true
     implicitWidth: 64
     implicitHeight: 64
 
@@ -14,6 +15,7 @@ Item {
     property color borderColor: "grey"
     property color indicatorColor: "grey"
     property color labelColor: "grey"
+    property bool isDraggingNow: false
 
     signal sliderValueChanged(real value)
 
@@ -30,13 +32,13 @@ Item {
         id: slider
         anchors.fill: parent
         visible: false
-
         from: knob.from
         to: knob.to
         value: knob.from
-
         onValueChanged: knob.sliderValueChanged(value)
     }
+
+
 
     /* ===== VISUAL ===== */
     Column {
@@ -76,41 +78,42 @@ Item {
             }
 
             MouseArea {
+                id: knobMouseArea
                 anchors.fill: parent
                 hoverEnabled: true
+                preventStealing: true
                 cursorShape: Qt.SizeVerCursor
 
                 property real startValue
+                property real lastY
 
-                onPressed: {
-                    console.log("onPressed")
-                    //startValue = slider.value
+
+                onPressed: function(mouse) {
+                    knob.isDraggingNow = true
+                    startValue = slider.value
+                    lastY = mouse.y
+                    knob.forceActiveFocus()
                 }
 
-                onPositionChanged: {
-                    console.log("onPositionChanged")
-                    /*
-                    if (!pressed) return
-
-                    let delta = -mouse.y + mouse.previousY
+                onPositionChanged: function(mouse) {
+                    if (!isDraggingNow) return
+                    let delta = lastY - mouse.y
+                    lastY = mouse.y
                     let sensitivity = (to - from) / 150
-
                     if (mouse.modifiers & Qt.ShiftModifier)
-                        sensitivity *= 0.2   // fine control
+                        sensitivity *= 0.2
 
-                    slider.value = Math.min(
-                        to,
-                        Math.max(from, slider.value + delta * sensitivity)
-                    )
-                    */
+                    slider.value = Math.min(to, Math.max(from, slider.value + delta * sensitivity))
                 }
 
-                onWheel: {
-                    console.log("onWheel")
-                    /*
+                onReleased: function(mouse) {
+                    console.log("onReleased")
+                    knob.isDraggingNow = false
+                }
+
+                onWheel: function(wheel) {
                     let step = (to - from) / 100
                     slider.value += wheel.angleDelta.y > 0 ? step : -step
-                    */
                 }
             }
         }
