@@ -11,6 +11,8 @@ Rectangle {
         width: 1
     }
 
+    property int selectedChannelIndex: -1
+
     property var channelModel: [                                                    // mock !
         "Kick Drum          Mic 1",
         "Snare Drum         Mic 2",
@@ -44,6 +46,15 @@ Rectangle {
                     width: Math.max(minW, Math.min(maxW, mixer.width * 0.2))
                     //channelData: modelData
                     channelDisplayedName: modelData
+                    channelIndex: index
+                    selected: mixer.selectedChannelIndex === index
+
+                    onClicked: {
+                        if (mixer.selectedChannelIndex === index)
+                            mixer.selectedChannelIndex = -1
+                        else
+                            mixer.selectedChannelIndex = index
+                    }
                 }
             }
 

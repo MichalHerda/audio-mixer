@@ -70,7 +70,7 @@ Item {
             property: "scrollX"
             from: -(label.width - root.scrollAreaWidth)
             to: 0
-            duration: (label.width / root.scrollSpeed) * 1000
+            duration: (label.width / root.scrollSpeed) * 500
             easing.type: Easing.Linear
         }
     }

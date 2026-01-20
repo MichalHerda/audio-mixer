@@ -34,6 +34,7 @@ qt_add_qml_module(appAudioMixer
         gui/sections/FxSendSection.qml
         gui/controls/MixerButton.qml
         gui/themes/Themes.qml
+        gui/controls/MixerMiniDisplay.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

@@ -15,11 +15,32 @@ Item {
 
     property alias channelDisplayedName: channelName.text
 
+    property int channelIndex: -1
+    property bool selected: false
+
+    signal clicked()
+
     Rectangle {
         anchors.fill: parent
-        color: "#1e1e1e"
-        border.color: "#444"
-        border.width: 1
+        //color: "#1e1e1e"
+        //border.color: "#444"
+        //border.width: 1
+
+        color: channel.selected ? "#2b3a55" : "#1e1e1e"
+        border.color: channel.selected ? "#4da3ff" : "#444"
+        border.width: channel.selected ? 2 : 1
+
+        Behavior on color {
+            ColorAnimation { duration: 150 }
+        }
+        Behavior on border.color {
+            ColorAnimation { duration: 150 }
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: channel.clicked()
+        }
     }
 
     Column {
