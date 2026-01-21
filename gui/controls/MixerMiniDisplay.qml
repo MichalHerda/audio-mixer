@@ -1,4 +1,5 @@
 import QtQuick 2.15
+import QtQuick.Shapes 1.10
 
 Item {
     id: root
@@ -15,11 +16,40 @@ Item {
     readonly property real hPadding: width * horizontalPaddingRatio
     readonly property real scrollAreaWidth: width - 2 * hPadding
 
+    property bool highlighted: hoverArea.containsMouse
+    property real highlightPhase: 0.0
+
     Rectangle {
+        id: base
         anchors.fill: parent
         radius: 3
         color: "#0c0c0c"
-        border.color: "#222"
+
+        border.color: highlighted ? "lightskyblue" : "#222"
+        border.width: highlighted ? 2 : 1
+
+        Behavior on border.color {
+            ColorAnimation { duration: 200 }
+        }
+
+        Behavior on border.width {
+            NumberAnimation { duration: 150 }
+        }
+    }
+
+    Rectangle {
+        anchors.fill: parent
+        radius: 3
+        visible: highlighted
+        opacity: highlightPhase * 0.15
+        z: 1
+
+        gradient: RadialGradient {
+            centerX: 0.5
+            centerY: 0.5
+            GradientStop { position: 0.0; color: "#00ff9c" }
+            GradientStop { position: 1.0; color: "transparent" }
+        }
     }
 
     Item {
@@ -72,6 +102,31 @@ Item {
             to: 0
             duration: (label.width / root.scrollSpeed) * 500
             easing.type: Easing.Linear
+        }
+    }
+
+    MouseArea {
+        id: hoverArea
+        anchors.fill: parent
+        hoverEnabled: true
+        acceptedButtons: Qt.NoButton
+    }
+
+    SequentialAnimation on highlightPhase {
+        running: highlighted
+        loops: Animation.Infinite
+
+        NumberAnimation {
+            from: 0.0
+            to: 1.0
+            duration: 1200
+            easing.type: Easing.InOutSine
+        }
+        NumberAnimation {
+            from: 1.0
+            to: 0.0
+            duration: 1200
+            easing.type: Easing.InOutSine
         }
     }
 
