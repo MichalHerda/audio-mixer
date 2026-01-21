@@ -75,9 +75,19 @@ Item {
             anchors.horizontalCenter: channelColumn.horizontalCenter
         }
 
+        Knob {
+            id: panKnob
+            anchors.horizontalCenter: channelColumn.horizontalCenter
+            label: "PAN"
+            indicatorColor: "white"
+            from: 20
+            to: 20000
+            value: 9990
+        }
+
         VolumeFader {
             id: volumeFader
             anchors.horizontalCenter: channelColumn.horizontalCenter
-        }
+        }        
     }
 }

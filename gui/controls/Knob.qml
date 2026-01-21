@@ -1,5 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
+import QtQuick.Shapes 1.10
 
 Item {
     id: knob
@@ -16,6 +17,8 @@ Item {
     property color indicatorColor: "grey"
     property color labelColor: "grey"
     property bool isDraggingNow: false
+    readonly property bool highlighted:  knobMouseArea.containsMouse || knob.isDraggingNow
+    property bool shine: true
 
     signal sliderValueChanged(real value)
 
@@ -57,16 +60,56 @@ Item {
                 height: parent.height * 0.9
                 width: parent.width * 0.9
                 radius: width * 0.5
-                color: knobColor
-                border.color: borderColor
-                border.width: 1
+                clip: true
 
+                color: knobColor
+                border.color: highlighted ? "lightskyblue" : borderColor
+                border.width: highlighted ? 2 : 1
+
+                /* ===== GOLD GLOW ===== */
+                Rectangle {
+                    id: shinningGlow
+                    anchors.fill: parent
+                    radius: parent.radius
+                    visible: highlighted
+                    opacity: 0.0
+
+                    gradient: RadialGradient {
+                        centerX: 0.35
+                        centerY: 0.35
+                        GradientStop { position: 0.0; color: "#ffffff" }
+                        GradientStop { position: 0.25; color: "#cfd6dc" }
+                        GradientStop { position: 0.5; color: "#8f9aa3" }
+                        GradientStop { position: 1.0; color: "transparent" }
+                    }
+
+                    SequentialAnimation on opacity {
+                        running: highlighted && shine
+                        loops: Animation.Infinite
+
+                        NumberAnimation {
+                            from: 0.25
+                            to: knob.isDraggingNow ? 0.8 : 0.55
+                            duration: knob.isDraggingNow ? 250 : 500
+                            easing.type: Easing.InOutSine
+                        }
+
+                        NumberAnimation {
+                            from: knob.isDraggingNow ? 0.8 : 0.55
+                            to: 0.25
+                            duration: knob.isDraggingNow ? 250 : 500
+                            easing.type: Easing.InOutSine
+                        }
+                    }
+                }
+
+                /* ===== INDICATOR ===== */
                 Rectangle {
                     id: knobIndicator
-                    anchors.horizontalCenter: knobBody.horizontalCenter
-                    anchors.top: knobBody.top
-                    height: knobBody.height * 0.45
-                    width: knobBody.width * 0.1
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.top: parent.top
+                    height: parent.height * 0.45
+                    width: parent.width * 0.1
                     color: indicatorColor
 
                     transform: Rotation {
@@ -75,7 +118,16 @@ Item {
                         angle: valueToAngle(slider.value)
                     }
                 }
+
+                Behavior on border.color {
+                    ColorAnimation { duration: 200 }
+                }
+
+                Behavior on border.width {
+                    NumberAnimation { duration: 150 }
+                }
             }
+
 
             MouseArea {
                 id: knobMouseArea
