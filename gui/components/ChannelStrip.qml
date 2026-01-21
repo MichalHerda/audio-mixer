@@ -17,17 +17,19 @@ Item {
 
     property int channelIndex: -1
     property bool selected: false
+    property bool hovered: false
 
-    signal clicked()
+    HoverHandler {
+        id: hoverHandler
+        acceptedDevices: PointerDevice.Mouse
+        onHoveredChanged: channel.hovered = hovered
+    }
 
     Rectangle {
         anchors.fill: parent
-        //color: "#1e1e1e"
-        //border.color: "#444"
-        //border.width: 1
 
-        color: channel.selected ? "#2b3a55" : "#1e1e1e"
-        border.color: channel.selected ? "#4da3ff" : "#444"
+        color: channel.selected ? "#2b3a55" : channel.hovered ? "#233047" : "#1e1e1e"
+        border.color: channel.selected ? "#4da3ff" : channel.hovered ? "#6fb6ff" : "#444"
         border.width: channel.selected ? 2 : 1
 
         Behavior on color {
@@ -35,11 +37,6 @@ Item {
         }
         Behavior on border.color {
             ColorAnimation { duration: 150 }
-        }
-
-        MouseArea {
-            anchors.fill: parent
-            onClicked: channel.clicked()
         }
     }
 

@@ -44,16 +44,17 @@ Rectangle {
                 ChannelStrip {
                     height: mixer.height
                     width: Math.max(minW, Math.min(maxW, mixer.width * 0.2))
-                    //channelData: modelData
                     channelDisplayedName: modelData
                     channelIndex: index
                     selected: mixer.selectedChannelIndex === index
 
-                    onClicked: {
-                        if (mixer.selectedChannelIndex === index)
-                            mixer.selectedChannelIndex = -1
-                        else
-                            mixer.selectedChannelIndex = index
+                    HoverHandler {
+                        onHoveredChanged: {
+                            if (hovered)
+                                mixer.selectedChannelIndex = channelIndex
+                            else if (mixer.selectedChannelIndex === channelIndex)
+                                mixer.selectedChannelIndex = -1
+                        }
                     }
                 }
             }
