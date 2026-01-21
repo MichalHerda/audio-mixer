@@ -16,6 +16,10 @@ Item {
     property int volSectionSpacing: 12
     property bool isDraggingNow: false
     readonly property bool highlighted: trackMouseArea.containsMouse || isDraggingNow
+    property real highlightPhase: 0.0
+    property bool shine: true
+
+    property color labelColor: "grey"
 
     //signal valueChanged(real value)
 
@@ -60,7 +64,7 @@ Item {
                     anchors.fill: parent
                     radius: parent.radius
                     visible: highlighted
-                    opacity: 0.0
+                    opacity: highlighted && shine ? highlightPhase : 0.0
 
                     gradient: LinearGradient {
                         //orientation: Gradient.Vertical
@@ -69,7 +73,7 @@ Item {
                         GradientStop { position: 0.5; color: "#8f9aa3" }
                         GradientStop { position: 1.0; color: "transparent" }
                     }
-
+/*
                     SequentialAnimation on opacity {
                         running: highlighted
                         loops: Animation.Infinite
@@ -87,6 +91,7 @@ Item {
                             easing.type: Easing.InOutSine
                         }
                     }
+*/
                 }
             }
 
@@ -118,24 +123,6 @@ Item {
                         GradientStop { position: 0.25; color: "#cfd6dc" }
                         GradientStop { position: 0.5; color: "#8f9aa3" }
                         GradientStop { position: 1.0; color: "transparent" }
-                    }
-
-                    SequentialAnimation on opacity {
-                        running: highlighted
-                        loops: Animation.Infinite
-
-                        NumberAnimation {
-                            from: 0.25
-                            to: fader.isDraggingNow ? 0.8 : 0.55
-                            duration: fader.isDraggingNow ? 250 : 500
-                            easing.type: Easing.InOutSine
-                        }
-                        NumberAnimation {
-                            from: fader.isDraggingNow ? 0.8 : 0.55
-                            to: 0.25
-                            duration: fader.isDraggingNow ? 250 : 500
-                            easing.type: Easing.InOutSine
-                        }
                     }
                 }
 
@@ -182,9 +169,37 @@ Item {
         Text {
             text: label
             font.pixelSize: 10
-            color: "#aaa"
             horizontalAlignment: Text.AlignHCenter
             width: parent.width
+
+            color: highlighted ? "#ffffff" : labelColor
+            opacity: highlighted ? highlightPhase : 0.6
+
+            Behavior on color {
+                ColorAnimation { duration: 150 }
+            }
+        }
+    }
+// TODO:
+// In your free time, you should create an ActiveItem component that will be the base for all controls .
+// and will contain the variables: shine, highlightPhase, and SequentialAnimationion common to all components
+// Previous attempts have resulted in problems with the coordinates.
+
+    SequentialAnimation on highlightPhase {
+        running: highlighted && shine
+        loops: Animation.Infinite
+
+        NumberAnimation {
+            from: 0.25
+            to: isDraggingNow ? 0.8 : 0.55
+            duration: isDraggingNow ? 250 : 500
+            easing.type: Easing.InOutSine
+        }
+        NumberAnimation {
+            from: isDraggingNow ? 0.8 : 0.55
+            to: 0.25
+            duration: isDraggingNow ? 250 : 500
+            easing.type: Easing.InOutSine
         }
     }
 }

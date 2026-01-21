@@ -19,6 +19,8 @@ Item {
     property bool isDraggingNow: false
     readonly property bool highlighted:  knobMouseArea.containsMouse || knob.isDraggingNow
     property bool shine: true
+    property real highlightPhase: 0.0
+
 
     signal sliderValueChanged(real value)
 
@@ -72,7 +74,7 @@ Item {
                     anchors.fill: parent
                     radius: parent.radius
                     visible: highlighted
-                    opacity: 0.0
+                    opacity: highlighted && shine ? highlightPhase : 0.0
 
                     gradient: RadialGradient {
                         centerX: 0.35
@@ -81,25 +83,6 @@ Item {
                         GradientStop { position: 0.25; color: "#cfd6dc" }
                         GradientStop { position: 0.5; color: "#8f9aa3" }
                         GradientStop { position: 1.0; color: "transparent" }
-                    }
-
-                    SequentialAnimation on opacity {
-                        running: highlighted && shine
-                        loops: Animation.Infinite
-
-                        NumberAnimation {
-                            from: 0.25
-                            to: knob.isDraggingNow ? 0.8 : 0.55
-                            duration: knob.isDraggingNow ? 250 : 500
-                            easing.type: Easing.InOutSine
-                        }
-
-                        NumberAnimation {
-                            from: knob.isDraggingNow ? 0.8 : 0.55
-                            to: 0.25
-                            duration: knob.isDraggingNow ? 250 : 500
-                            easing.type: Easing.InOutSine
-                        }
                     }
                 }
 
@@ -178,8 +161,38 @@ Item {
             visible: label.length > 0
             text: label
             font.pixelSize: 10
-            color: labelColor
             horizontalAlignment: Text.AlignHCenter
+
+            color: highlighted ? "#ffffff" : labelColor
+            opacity: highlighted ? highlightPhase : 0.6
+
+            Behavior on color {
+                ColorAnimation { duration: 150 }
+            }
+        }
+
+    }
+
+// TODO:
+// In your free time, you should create an ActiveItem component that will be the base for all controls .
+// and will contain the variables: shine, highlightPhase, and SequentialAnimationion common to all components
+// Previous attempts have resulted in problems with the coordinates.
+
+    SequentialAnimation on highlightPhase {
+        running: highlighted && shine
+        loops: Animation.Infinite
+
+        NumberAnimation {
+            from: 0.25
+            to: isDraggingNow ? 0.8 : 0.55
+            duration: isDraggingNow ? 250 : 500
+            easing.type: Easing.InOutSine
+        }
+        NumberAnimation {
+            from: isDraggingNow ? 0.8 : 0.55
+            to: 0.25
+            duration: isDraggingNow ? 250 : 500
+            easing.type: Easing.InOutSine
         }
     }
 }
