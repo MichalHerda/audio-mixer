@@ -2,6 +2,7 @@ import QtQuick 2.15
 
 import "../sections"
 import "../controls"
+import AudioMixer
 
 Item {
     id: channel
@@ -28,16 +29,12 @@ Item {
     Rectangle {
         anchors.fill: parent
 
-        color: channel.selected ? "#2b3a55" : channel.hovered ? "#233047" : "#1e1e1e"
-        border.color: channel.selected ? "#4da3ff" : channel.hovered ? "#6fb6ff" : "#444"
+        color: channel.selected ? Themes.bgSelected : channel.hovered ? Themes.bgHover : Themes.bgMain
+        border.color: channel.selected  ? Themes.borderSelected : channel.hovered ? Themes.borderHover : Themes.borderIdle
         border.width: channel.selected ? 2 : 1
 
-        Behavior on color {
-            ColorAnimation { duration: 150 }
-        }
-        Behavior on border.color {
-            ColorAnimation { duration: 150 }
-        }
+        Behavior on color { ColorAnimation { duration: Themes.animFast } }
+        Behavior on border.color { ColorAnimation { duration: Themes.animFast } }
     }
 
     Column {
