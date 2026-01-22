@@ -7,18 +7,26 @@ import AudioMixer
 Item {
     id: channel
     implicitHeight: 600
-    implicitWidth: 64
+    implicitWidth: 164
     property int channelSpacing: 16
     property int channelPadding: 4
 
     readonly property real minW: 80
     readonly property real maxW: 150
+    property real stripWidth: implicitWidth
+    width: stripWidth
 
     property alias channelDisplayedName: channelName.text
 
     property int channelIndex: -1
     property bool selected: false
     property bool hovered: false
+    property bool resizing: false
+
+    property bool handleHovered: false
+    readonly property bool highlighted: hovered || handleHovered || resizing
+    property real highlightPhase: 0.0
+    property bool shine: true
 
     HoverHandler {
         id: hoverHandler
@@ -27,15 +35,36 @@ Item {
     }
 
     Rectangle {
+        id: bg
         anchors.fill: parent
 
-        color: channel.selected ? Themes.bgSelected : channel.hovered ? Themes.bgHover : Themes.bgMain
-        border.color: channel.selected  ? Themes.borderSelected : channel.hovered ? Themes.borderHover : Themes.borderIdle
-        border.width: channel.selected ? 2 : 1
+        color: channel.selected
+               ? Themes.bgSelected
+               : highlighted
+                 ? Themes.bgHover
+                 : Themes.bgMain
+
+        border.color: channel.selected
+                      ? Themes.borderSelected
+                      : highlighted
+                        ? Qt.lighter(Themes.borderHover, 1.4)
+                        : Themes.borderIdle
+
+        border.width: highlighted ? 2 : 1
+
+        /* subtle glow overlay */
+        Rectangle {
+            anchors.fill: parent
+            visible: highlighted && shine
+            opacity: highlightPhase * 0.35
+            color: "white"
+        }
 
         Behavior on color { ColorAnimation { duration: Themes.animFast } }
         Behavior on border.color { ColorAnimation { duration: Themes.animFast } }
+        Behavior on border.width { NumberAnimation { duration: 120 } }
     }
+
 
     Column {
         id: channelColumn
@@ -86,5 +115,62 @@ Item {
             id: volumeFader
             anchors.horizontalCenter: channelColumn.horizontalCenter
         }        
+    }
+
+    Rectangle {
+        id: resizeHandle
+        width: 8
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+        color: "transparent"
+        z: 100
+
+        DragHandler {
+            id: drag
+            target: null
+            xAxis.enabled: true
+            yAxis.enabled: false
+            grabPermissions: PointerHandler.TakeOverForbidden
+
+            property real startWidth
+
+            onActiveChanged: {
+                channel.resizing = active
+                if (active)
+                    startWidth = channel.stripWidth
+            }
+
+            onTranslationChanged: {
+                channel.stripWidth = Math.max(
+                    channel.minW,
+                    Math.min(channel.maxW, startWidth + translation.x)
+                )
+            }
+        }
+
+        HoverHandler {
+            cursorShape: Qt.SizeHorCursor
+            onHoveredChanged: channel.handleHovered = hovered
+        }
+    }
+
+    SequentialAnimation on highlightPhase {
+        running: highlighted && shine
+        loops: Animation.Infinite
+
+        NumberAnimation {
+            from: 0.2
+            to: resizing ? 0.6 : 0.45
+            duration: resizing ? 220 : 420
+            easing.type: Easing.InOutSine
+        }
+
+        NumberAnimation {
+            from: resizing ? 0.6 : 0.45
+            to: 0.2
+            duration: resizing ? 220 : 420
+            easing.type: Easing.InOutSine
+        }
     }
 }

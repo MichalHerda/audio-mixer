@@ -34,6 +34,8 @@ Rectangle {
         flickableDirection: Flickable.HorizontalFlick
         clip: true
 
+        interactive: !appMixer.resizing
+
         Row {
             id: channelsRow
             spacing: 5
@@ -43,7 +45,7 @@ Rectangle {
                 model: mixer.channelModel                                                // mock
                 ChannelStrip {
                     height: mixer.height
-                    width: Math.max(minW, Math.min(maxW, mixer.width * 0.2))
+                    //width: Math.max(minW, Math.min(maxW, mixer.width * 0.2))
                     channelDisplayedName: modelData
                     channelIndex: index
                     selected: mixer.selectedChannelIndex === index
@@ -59,10 +61,10 @@ Rectangle {
                 }
             }
 
-            Item {
-                id: separator
-                Layout.fillWidth: true
-            }
+            //Item {
+            //    id: separator
+            //    Layout.fillWidth: true
+            //}
         }
     }
 }
