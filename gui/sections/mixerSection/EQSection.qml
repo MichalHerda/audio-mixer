@@ -1,5 +1,5 @@
 import QtQuick 2.15
-import "../controls"
+import "../../controls"
 
 Item {
     id: eq

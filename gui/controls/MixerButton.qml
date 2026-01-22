@@ -21,6 +21,10 @@ Item {
     property bool pressing: false
     property bool highlighted: buttonMouseArea.containsMouse
 
+    property alias buttonTextOrientation: buttonTxt.x
+    property alias buttonLightColor: buttonLight.color
+    property alias buttonBorderColor: mixerButton.border.color
+
     signal mixerButtonClicked()
 
     Rectangle {
