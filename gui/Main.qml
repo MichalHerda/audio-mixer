@@ -24,6 +24,12 @@ Window {
             SplitView.preferredHeight: 40
             SplitView.minimumHeight: 35
             SplitView.maximumHeight: 70
+
+            onMenuAction: function(id) {
+                console.log("Menu action:", id)
+                // TODO:
+                // appController.handleMenuAction(id)
+            }
         }
 
         Transport {
@@ -34,7 +40,6 @@ Window {
 
             HoverHandler {
                 onHoveredChanged: {
-                    console.log("hovered changed")
                     appTransport.hovered = hovered
                 }
             }

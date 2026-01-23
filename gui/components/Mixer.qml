@@ -51,7 +51,6 @@ Rectangle {
 
                     HoverHandler {
                         onHoveredChanged: {
-                            console.log("hovered changed")
                             if (hovered)
                                 mixer.selectedChannelIndex = channelIndex
                             else if (mixer.selectedChannelIndex === channelIndex)
