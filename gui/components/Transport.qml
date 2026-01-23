@@ -8,21 +8,39 @@ import "../controls"
 Item {
     id: transport
     property alias state: transportState
+    property bool hovered: false
+    readonly property bool highlighted: hovered
+
+    implicitHeight: 80
+    implicitWidth: 400
 
     TransportState {
         id: transportState
     }
+
     Rectangle {
         id: background
         anchors.fill: parent
-        color: Themes.bgMain
+
+        color: highlighted
+               ? Themes.bgHover
+               : Themes.bgMain
+
+        border.color: highlighted
+                      ? Themes.borderHover
+                      : Themes.borderIdle
+
+        border.width: highlighted ? 2 : 1
+
+        Behavior on color { ColorAnimation { duration: Themes.animFast } }
+        Behavior on border.color { ColorAnimation { duration: Themes.animFast } }
+        Behavior on border.width { NumberAnimation { duration: 120 }
+    }
 
         RowLayout {
             Layout.preferredWidth: implicitWidth
             Layout.minimumWidth: implicitWidth
             Layout.alignment: Qt.AlignHCenter
-            //width: parent.width * 0.75
-            //anchors.horizontalCenter: parent.horizontalCenter
             spacing: 12
 
             Item {
@@ -32,14 +50,11 @@ Item {
 
             TransportControls {
                 state: transportState
-                //anchors.verticalCenter: parent.verticalCenter
                 Layout.alignment: Qt.AlignVCenter
             }
 
             TransportDisplay {
-                //height: transport.height
                 state: transportState
-                //Layout.fillWidth: true
             }
 
             Item {

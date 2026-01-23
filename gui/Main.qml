@@ -21,16 +21,23 @@ Window {
 
         Header {
             id: appHeader
-            SplitView.preferredHeight: 60
-            SplitView.minimumHeight: 40
-            SplitView.maximumHeight: 80
+            SplitView.preferredHeight: 40
+            SplitView.minimumHeight: 35
+            SplitView.maximumHeight: 70
         }
 
         Transport {
             id: appTransport
-            SplitView.preferredHeight: 80
-            SplitView.minimumHeight: 60
-            SplitView.maximumHeight: 100
+            SplitView.preferredHeight: 85
+            SplitView.minimumHeight: 80
+            SplitView.maximumHeight: 120
+
+            HoverHandler {
+                onHoveredChanged: {
+                    console.log("hovered changed")
+                    appTransport.hovered = hovered
+                }
+            }
         }
 
         Mixer {

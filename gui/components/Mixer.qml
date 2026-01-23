@@ -13,7 +13,7 @@ Rectangle {
 
     property int selectedChannelIndex: -1
 
-    property var channelModel: [                                                    // mock !
+    property var channelModel: [                                                        // mock !
         "Kick Drum          Mic 1",
         "Snare Drum         Mic 2",
         "Hi-Hat             Mic 3",
@@ -45,13 +45,13 @@ Rectangle {
                 model: mixer.channelModel                                                // mock
                 ChannelStrip {
                     height: mixer.height
-                    //width: Math.max(minW, Math.min(maxW, mixer.width * 0.2))
                     channelDisplayedName: modelData
                     channelIndex: index
                     selected: mixer.selectedChannelIndex === index
 
                     HoverHandler {
                         onHoveredChanged: {
+                            console.log("hovered changed")
                             if (hovered)
                                 mixer.selectedChannelIndex = channelIndex
                             else if (mixer.selectedChannelIndex === channelIndex)
@@ -60,11 +60,6 @@ Rectangle {
                     }
                 }
             }
-
-            //Item {
-            //    id: separator
-            //    Layout.fillWidth: true
-            //}
         }
     }
 }

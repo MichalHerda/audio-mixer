@@ -5,7 +5,8 @@ Rectangle {
     id: background
     implicitWidth: 436
     implicitHeight: 40
-    color: "#1e1e1e"
+    //color: "#1e1e1e"
+    color: "transparent"
 
     Row {
         anchors.fill: parent
@@ -20,13 +21,13 @@ Rectangle {
 
         TransportButton {
             buttonText: "PLAY"
-            isOn: state.playing
+            //isOn: state.playing
             //onClicked: state.play()
         }
 
         TransportButton {
             buttonText: "PAUSE"
-            isOn: state.paused
+            //isOn: state.paused
             //onClicked: state.pause()
         }
 
@@ -39,12 +40,12 @@ Rectangle {
         TransportButton {
             buttonText: "STOP"
             enabled: false                                  // TODO
-            isOn: state.recording
+            //isOn: state.recording
         }
 
         TransportButton {
             buttonText: "LOOP"
-            isOn: state.loop
+            //isOn: state.loop
             //onClicked: state.loop = !state.loop
         }
     }

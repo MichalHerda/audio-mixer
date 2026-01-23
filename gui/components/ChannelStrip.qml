@@ -28,11 +28,11 @@ Item {
     property real highlightPhase: 0.0
     property bool shine: true
 
-    HoverHandler {
-        id: hoverHandler
-        acceptedDevices: PointerDevice.Mouse
-        onHoveredChanged: channel.hovered = hovered
-    }
+    //HoverHandler {
+    //    id: hoverHandler
+    //    acceptedDevices: PointerDevice.Mouse
+    //    onHoveredChanged: channel.hovered = hovered
+    //}
 
     Rectangle {
         id: bg
