@@ -9,8 +9,7 @@ Item {
     property string text: ""
     property string optionId: ""
 
-    signal triggered(string optionId)
-
+    signal triggered()
     property bool hovered: false
 
     Rectangle {
@@ -34,12 +33,12 @@ Item {
         font.pixelSize: 11
     }
 
-    HoverHandler {
-        onHoveredChanged: option.hovered = hovered
-    }
-
     MouseArea {
         anchors.fill: parent
-        onClicked: option.triggered(option.optionId)
+        hoverEnabled: true
+
+        onEntered: option.hovered = true
+        onExited: option.hovered = false
+        onClicked: option.triggered()
     }
 }

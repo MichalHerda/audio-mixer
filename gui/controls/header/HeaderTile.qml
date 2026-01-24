@@ -7,17 +7,27 @@ Item {
     implicitWidth: 96
     implicitHeight: 36
 
+    property int tileIndex: -1
     property string title
     property var model
 
+    property bool open: false
+
     signal optionTriggered(string optionId)
+    signal clicked()
+    signal hovered(bool hovered)
 
     Rectangle {
         id: base
         anchors.fill: parent
         radius: 3
-        color: Themes.bgMain
-        border.color: popup.visible ? Themes.borderHover : Themes.borderIdle
+
+        color: open ? Themes.bgHover : Themes.bgMain
+        border.color: open ? Themes.borderHover : Themes.borderIdle
+        border.width: open ? 2 : 1
+
+        Behavior on color { ColorAnimation { duration: Themes.animFast } }
+        Behavior on border.width { NumberAnimation { duration: 120 } }
 
         Text {
             anchors.centerIn: parent
@@ -25,20 +35,32 @@ Item {
             color: "white"
             font.pixelSize: 12
         }
+    }
 
-        MouseArea {
-            anchors.fill: parent
-            onClicked: popup.open()
-        }
+    MouseArea {
+        anchors.fill: parent
+        hoverEnabled: true
+
+        onEntered: tile.hovered(true)
+        onExited: tile.hovered(false)
+        onClicked: tile.clicked()
+    }
+
+    onOpenChanged: {
+        if (open)
+            popup.open()
+        else
+            popup.close()
     }
 
     Popup {
         id: popup
-        x: tile.mapToItem(null, 0, tile.height).x
-        y: tile.mapToItem(null, 0, tile.height).y
-        width: 160
         modal: false
         focus: true
+        width: 160
+
+        x: tile.mapToItem(null, 0, tile.height).x
+        y: tile.mapToItem(null, 0, tile.height).y
 
         background: Rectangle {
             radius: 4
@@ -54,10 +76,7 @@ Item {
                 delegate: HeaderOption {
                     text: model.label
                     optionId: model.actionId
-                    onTriggered: {
-                        popup.close()
-                        tile.optionTriggered(optionId)
-                    }
+                    onTriggered: tile.optionTriggered(optionId)
                 }
             }
         }

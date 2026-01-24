@@ -11,6 +11,7 @@ Rectangle {
     border.width: 1
 
     signal menuAction(string actionId)
+    property int openIndex: -1
 
     Row {
         anchors.verticalCenter: parent.verticalCenter
@@ -19,36 +20,68 @@ Rectangle {
         spacing: 6
 
         HeaderTile {
+            tileIndex: 0
             title: "File"
-            model: ListModel {
-                ListElement { actionId: "new_project";  label: "New Project" }
-                ListElement { actionId: "open_project"; label: "Open…" }
-                ListElement { actionId: "save";         label: "Save" }
-                ListElement { actionId: "export";       label: "Export Audio" }
+            model: fileModel
+            open: header.openIndex === tileIndex
+
+            onHovered: header.openIndex = tileIndex
+
+            onClicked: header.openIndex = tileIndex
+            function handleOption(id) {
+                header.openIndex = -1
+                header.menuAction(id)
             }
-            onOptionTriggered: header.menuAction(optionId)
         }
 
         HeaderTile {
+            tileIndex: 1
             title: "Edit"
-            model: ListModel {
-                ListElement { actionId: "undo";              label: "Undo" }
-                ListElement { actionId: "redo";              label: "Redo" }
-                ListElement { actionId: "duplicate_channel"; label: "Duplicate Channel" }
-                ListElement { actionId: "delete_channel";    label: "Delete Channel" }
+            model: editModel
+            open: header.openIndex === tileIndex
+
+            onHovered: header.openIndex = tileIndex
+
+            onClicked: header.openIndex = tileIndex
+            function handleOption(id) {
+                header.openIndex = -1
+                header.menuAction(id)
             }
-            onOptionTriggered: header.menuAction(optionId)
         }
 
         HeaderTile {
+            tileIndex: 2
             title: "View"
-            model: ListModel {
-                ListElement { actionId: "show_mixer";   label: "Show Mixer" }
-                ListElement { actionId: "show_routing"; label: "Show Routing" }
-                ListElement { actionId: "zoom_in";      label: "Zoom In" }
-                ListElement { actionId: "zoom_out";     label: "Zoom Out" }
+            model: viewModel
+            open: header.openIndex === tileIndex
+
+            onHovered: header.openIndex = tileIndex
+
+            onClicked: header.openIndex = tileIndex
+            function handleOption(id) {
+                header.openIndex = -1
+                header.menuAction(id)
             }
-            onOptionTriggered: header.menuAction(optionId)
         }
+    }
+
+    ListModel {
+        id: fileModel
+        ListElement { actionId: "new_project";  label: "New Project" }
+        ListElement { actionId: "open_project"; label: "Open…" }
+        ListElement { actionId: "save";         label: "Save" }
+        ListElement { actionId: "export";       label: "Export Audio" }
+    }
+
+    ListModel {
+        id: editModel
+        ListElement { actionId: "undo"; label: "Undo" }
+        ListElement { actionId: "redo"; label: "Redo" }
+    }
+
+    ListModel {
+        id: viewModel
+        ListElement { actionId: "zoom_in"; label: "Zoom In" }
+        ListElement { actionId: "zoom_out"; label: "Zoom Out" }
     }
 }
