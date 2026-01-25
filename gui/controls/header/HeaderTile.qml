@@ -58,6 +58,7 @@ Item {
         modal: false
         focus: true
         width: 160
+        padding: 0
 
         x: tile.mapToItem(null, 0, tile.height).x
         y: tile.mapToItem(null, 0, tile.height).y
@@ -68,12 +69,14 @@ Item {
             border.color: Themes.borderHover
         }
 
-        Column {
+        contentItem: Column {
+            id: popupColumn
             spacing: 2
 
             Repeater {
                 model: tile.model
                 delegate: HeaderOption {
+                    width: popupColumn.width
                     text: model.label
                     optionId: model.actionId
                     onTriggered: tile.optionTriggered(optionId)

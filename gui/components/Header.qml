@@ -6,12 +6,26 @@ import AudioMixer
 
 Rectangle {
     id: header
-    color: Themes.backgroundColor
-    border.color: Themes.borderColor
-    border.width: 1
 
     signal menuAction(string actionId)
+    color: Themes.backgroundColor
+    border.color: Themes.borderColor
     property int openIndex: -1
+
+    function activateTile(index, fromClick) {
+        // CLICK → toggle
+        if (fromClick) {
+            if (openIndex === index)
+                openIndex = -1
+            else
+                openIndex = index
+            return
+        }
+
+        // HOVER → always open / switch
+        if (openIndex === -1 || openIndex !== index)
+            openIndex = index
+    }
 
     Row {
         anchors.verticalCenter: parent.verticalCenter
@@ -25,12 +39,12 @@ Rectangle {
             model: fileModel
             open: header.openIndex === tileIndex
 
-            onHovered: header.openIndex = tileIndex
+            onHovered: header.activateTile(tileIndex, false)
+            onClicked: header.activateTile(tileIndex, true)
 
-            onClicked: header.openIndex = tileIndex
-            function handleOption(id) {
+            onOptionTriggered: function(optionId) {
                 header.openIndex = -1
-                header.menuAction(id)
+                header.menuAction(optionId)
             }
         }
 
@@ -40,12 +54,12 @@ Rectangle {
             model: editModel
             open: header.openIndex === tileIndex
 
-            onHovered: header.openIndex = tileIndex
+            onHovered: header.activateTile(tileIndex, false)
+            onClicked: header.activateTile(tileIndex, true)
 
-            onClicked: header.openIndex = tileIndex
-            function handleOption(id) {
+            onOptionTriggered: function(optionId) {
                 header.openIndex = -1
-                header.menuAction(id)
+                header.menuAction(optionId)
             }
         }
 
@@ -55,14 +69,60 @@ Rectangle {
             model: viewModel
             open: header.openIndex === tileIndex
 
-            onHovered: header.openIndex = tileIndex
+            onHovered: header.activateTile(tileIndex, false)
+            onClicked: header.activateTile(tileIndex, true)
 
-            onClicked: header.openIndex = tileIndex
-            function handleOption(id) {
+            onOptionTriggered: function(optionId) {
                 header.openIndex = -1
-                header.menuAction(id)
+                header.menuAction(optionId)
             }
         }
+
+        HeaderTile {
+            tileIndex: 3
+            title: "Track"
+            model: trackModel
+            open: header.openIndex === tileIndex
+
+            onHovered: header.activateTile(tileIndex, false)
+            onClicked: header.activateTile(tileIndex, true)
+
+            onOptionTriggered: function(optionId) {
+                header.openIndex = -1
+                header.menuAction(optionId)
+            }
+        }
+
+        HeaderTile {
+            tileIndex: 4
+            title: "Mixer"
+            model: mixerModel
+            open: header.openIndex === tileIndex
+
+            onHovered: header.activateTile(tileIndex, false)
+            onClicked: header.activateTile(tileIndex, true)
+
+            onOptionTriggered: function(optionId) {
+                header.openIndex = -1
+                header.menuAction(optionId)
+            }
+        }
+
+        HeaderTile {
+            tileIndex: 5
+            title: "Help"
+            model: helpModel
+            open: header.openIndex === tileIndex
+
+            onHovered: header.activateTile(tileIndex, false)
+            onClicked: header.activateTile(tileIndex, true)
+
+            onOptionTriggered: function(optionId) {
+                header.openIndex = -1
+                header.menuAction(optionId)
+            }
+        }
+
     }
 
     ListModel {
@@ -84,4 +144,30 @@ Rectangle {
         ListElement { actionId: "zoom_in"; label: "Zoom In" }
         ListElement { actionId: "zoom_out"; label: "Zoom Out" }
     }
+
+    ListModel {
+        id: trackModel
+        ListElement { actionId: "add_audio_track";   label: "Add Audio Track" }
+        ListElement { actionId: "add_midi_track";    label: "Add MIDI Track" }
+        ListElement { actionId: "duplicate_track";   label: "Duplicate Track" }
+        ListElement { actionId: "delete_track";      label: "Delete Track" }
+        ListElement { actionId: "freeze_track";      label: "Freeze Track" }
+    }
+
+    ListModel {
+        id: mixerModel
+        ListElement { actionId: "add_bus";        label: "Add Bus Channel" }
+        ListElement { actionId: "add_return";     label: "Add Return Track" }
+        ListElement { actionId: "toggle_mixer";   label: "Show / Hide Mixer" }
+        ListElement { actionId: "reset_levels";   label: "Reset All Levels" }
+    }
+
+    ListModel {
+        id: helpModel
+        ListElement { actionId: "show_shortcuts"; label: "Keyboard Shortcuts" }
+        ListElement { actionId: "open_docs";      label: "Documentation" }
+        ListElement { actionId: "about_app";      label: "About AudioMixer" }
+    }
+
+
 }

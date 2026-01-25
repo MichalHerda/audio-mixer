@@ -4,7 +4,8 @@ import AudioMixer
 Item {
     id: option
     implicitHeight: 26
-    implicitWidth: 160
+    implicitWidth: parent ? parent.width : 160
+
 
     property string text: ""
     property string optionId: ""
