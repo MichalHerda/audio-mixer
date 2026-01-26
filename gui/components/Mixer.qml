@@ -11,8 +11,8 @@ Rectangle {
         width: 1
     }
 
+    property int hoveredChannelIndex: -1
     property int selectedChannelIndex: -1
-
     property var channelModel: [                                                        // mock !
         "Kick Drum          Mic 1",
         "Snare Drum         Mic 2",
@@ -47,16 +47,40 @@ Rectangle {
                     height: mixer.height
                     channelDisplayedName: modelData
                     channelIndex: index
+                    hovered: mixer.hoveredChannelIndex === index
                     selected: mixer.selectedChannelIndex === index
 
                     HoverHandler {
                         onHoveredChanged: {
                             if (hovered)
-                                mixer.selectedChannelIndex = channelIndex
-                            else if (mixer.selectedChannelIndex === channelIndex)
-                                mixer.selectedChannelIndex = -1
+                                mixer.hoveredChannelIndex = channelIndex
+                            else if (mixer.hoveredChannelIndex === channelIndex)
+                                mixer.hoveredChannelIndex = -1
                         }
                     }
+
+                    TapHandler {
+                        acceptedButtons: Qt.LeftButton | Qt.RightButton
+                        onTapped: function(event, button) {
+
+                            if (button === Qt.LeftButton) {
+                                if (mixer.selectedChannelIndex === channelIndex)
+                                    mixer.selectedChannelIndex = -1
+                                else
+                                    mixer.selectedChannelIndex = channelIndex
+                            }
+
+                            else if (button === Qt.RightButton) {
+                                mixer.selectedChannelIndex = channelIndex
+                            }
+
+                            console.log(
+                                "clicked channel:", channelIndex,
+                                "selected:", mixer.selectedChannelIndex
+                            )
+                        }
+                    }
+
                 }
             }
         }

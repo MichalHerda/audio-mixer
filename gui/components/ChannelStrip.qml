@@ -28,29 +28,25 @@ Item {
     property real highlightPhase: 0.0
     property bool shine: true
 
-    //HoverHandler {
-    //    id: hoverHandler
-    //    acceptedDevices: PointerDevice.Mouse
-    //    onHoveredChanged: channel.hovered = hovered
-    //}
-
     Rectangle {
         id: bg
         anchors.fill: parent
 
-        color: channel.selected
-               ? Themes.bgSelected
+        color: channel.hovered
+               ? Themes.bghovered
                : highlighted
                  ? Themes.bgHover
                  : Themes.bgMain
 
         border.color: channel.selected
                       ? Themes.borderSelected
-                      : highlighted
-                        ? Qt.lighter(Themes.borderHover, 1.4)
-                        : Themes.borderIdle
+                      : channel.hovered
+                        ? Themes.borderhovered
+                        : highlighted
+                          ? Qt.lighter(Themes.borderHover, 1.4)
+                          : Themes.borderIdle
 
-        border.width: highlighted ? 2 : 1
+        border.width: channel.selected ? 3 : highlighted ? 2 : 1
 
         /* subtle glow overlay */
         Rectangle {

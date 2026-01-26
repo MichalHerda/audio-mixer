@@ -12,11 +12,13 @@ QtObject {
     // active pallette
     readonly property color bgMain: "#1e1e1e"
     readonly property color bgHover: "#233047"
-    readonly property color bgSelected: "#2b3a55"
+    readonly property color bghovered: "#2b3a55"
 
     readonly property color borderIdle: "#444"
     readonly property color borderHover: "#6fb6ff"
-    readonly property color borderSelected: "#4da3ff"
+    readonly property color borderhovered: "#4da3ff"
+
+    readonly property color borderSelected: "red"
 
     readonly property color metalBright: "#ffffff"
     readonly property color metalMid: "#cfd6dc"
