@@ -2,6 +2,7 @@ import QtQuick 2.15
 import QtQuick.Layouts
 import AudioMixer
 import "../components"
+import "../menus"
 
 Rectangle {
     id: mixer
@@ -23,6 +24,17 @@ Rectangle {
         "Lead Vocal         Mic 6",
         "Backing Vocal      Mic 7"
     ]
+
+    ContextMenu {
+        id: trackContextMenu
+        model: TrackMenuModel{}
+
+        onMenuAction: function(actionId) {
+            console.log("Track context action:", actionId,
+                        "on channel:", selectedChannelIndex)
+            // appController.handleTrackAction(actionId, selectedChannelIndex)
+        }
+    }
 
     Flickable {
         id: flick
@@ -61,26 +73,27 @@ Rectangle {
 
                     TapHandler {
                         acceptedButtons: Qt.LeftButton | Qt.RightButton
+
                         onTapped: function(event, button) {
 
                             if (button === Qt.LeftButton) {
-                                if (mixer.selectedChannelIndex === channelIndex)
-                                    mixer.selectedChannelIndex = -1
-                                else
-                                    mixer.selectedChannelIndex = channelIndex
+                                mixer.selectedChannelIndex =
+                                    mixer.selectedChannelIndex === channelIndex
+                                    ? -1
+                                    : channelIndex
                             }
 
                             else if (button === Qt.RightButton) {
+                                console.log("right click")
                                 mixer.selectedChannelIndex = channelIndex
+                                trackContextMenu.openAt(
+                                    event.scenePosition.x,
+                                    event.scenePosition.y
+                                )
+                                onOpened: console.log("popup opened at", event.scenePosition.x, event.scenePosition.y)
                             }
-
-                            console.log(
-                                "clicked channel:", channelIndex,
-                                "selected:", mixer.selectedChannelIndex
-                            )
                         }
                     }
-
                 }
             }
         }

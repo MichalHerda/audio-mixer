@@ -35,12 +35,14 @@ qt_add_qml_module(appAudioMixer
         gui/controls/MixerButton.qml
         gui/themes/Themes.qml
         gui/controls/MixerMiniDisplay.qml
-        QML_FILES gui/sections/transportSection/TransportState.qml
-        QML_FILES gui/sections/transportSection/TransportControls.qml
-        QML_FILES gui/controls/TransportButton.qml
-        QML_FILES gui/controls/TransportDisplay.qml
-        QML_FILES gui/controls/header/HeaderOption.qml
-        QML_FILES gui/controls/header/HeaderTile.qml
+        gui/sections/transportSection/TransportState.qml
+        gui/sections/transportSection/TransportControls.qml
+        gui/controls/TransportButton.qml
+        gui/controls/TransportDisplay.qml
+        gui/controls/header/HeaderOption.qml
+        gui/controls/header/HeaderTile.qml
+        gui/menus/TrackMenuModel.qml
+        gui/menus/ContextMenu.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
