@@ -24,6 +24,11 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
 
+    Channel* channelAt(int index) const;
+    void addChannel(Channel* channel);
+    void removeChannel(int index);
+    void clear();
+
 private:
     QList<Channel*> m_channels;
 };

@@ -44,3 +44,43 @@ QHash<int, QByteArray> ChannelListModel::roleNames() const
         { ChannelRole, "channel" }
     };
 }
+
+Channel *ChannelListModel::channelAt(int index) const
+{
+    if (index < 0 || index >= m_channels.size())
+        return nullptr;
+
+    return m_channels.at(index);
+}
+
+void ChannelListModel::addChannel(Channel *channel)
+{
+    if (!channel)
+        return;
+
+    channel->setParent(this);
+
+    const int index = m_channels.size();
+    beginInsertRows(QModelIndex(), index, index);
+    m_channels.append(channel);
+    endInsertRows();
+}
+
+
+void ChannelListModel::removeChannel(int index)
+{
+    if (index < 0 || index >= m_channels.size())
+        return;
+
+    beginRemoveRows(QModelIndex(), index, index);
+    delete m_channels.takeAt(index);
+    endRemoveRows();
+}
+
+void ChannelListModel::clear()
+{
+    beginResetModel();
+    qDeleteAll(m_channels);
+    m_channels.clear();
+    endResetModel();
+}
