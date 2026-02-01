@@ -43,6 +43,8 @@ qt_add_qml_module(appAudioMixer
         gui/controls/header/HeaderTile.qml
         gui/menus/TrackMenuModel.qml
         gui/menus/ContextMenu.qml
+        gui/components/MixerBackground.qml
+        gui/menus/BackgroundTrackMenuModel.qml
 
     SOURCES
         backend/mixer/channel.h

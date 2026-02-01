@@ -27,8 +27,7 @@ Window {
 
             onMenuAction: function(id) {
                 console.log("Menu action:", id)
-                // TODO:
-                // appController.handleMenuAction(id)
+                appController.handleMenuAction(id)
             }
         }
 

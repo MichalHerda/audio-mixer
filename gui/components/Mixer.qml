@@ -14,18 +14,8 @@ Rectangle {
 
     property int hoveredChannelIndex: -1
     property int selectedChannelIndex: -1
-    /*
-    property var channelModel: [                                                        // mock !
-        "Kick Drum          Mic 1",
-        "Snare Drum         Mic 2",
-        "Hi-Hat             Mic 3",
-        "Bass Guitar        DI   ",
-        "Electric Guitar L  Mic 4",
-        "Electric Guitar R  Mic 5",
-        "Lead Vocal         Mic 6",
-        "Backing Vocal      Mic 7"
-    ]
-    */
+    property bool backgroundSelected: false
+
     ContextMenu {
         id: trackContextMenu
         model: TrackMenuModel{}
@@ -33,9 +23,21 @@ Rectangle {
         onMenuAction: function(actionId) {
             console.log("Track context action:", actionId,
                         "on channel:", selectedChannelIndex)
-            // appController.handleTrackAction(actionId, selectedChannelIndex)
+            appController.handleTrackAction(actionId, selectedChannelIndex)
         }
     }
+
+    ContextMenu {
+        id: backgroundContextMenu
+        model: BackgroundTrackMenuModel {}
+
+        onMenuAction: function(actionId) {
+            console.log("Track context action:", actionId,
+                        "on mixer background")
+            appController.handleBackgroundAction(actionId)
+        }
+    }
+
 
     Flickable {
         id: flick
@@ -51,11 +53,13 @@ Rectangle {
 
         Row {
             id: channelsRow
+            width: flick.width
             spacing: 5
             anchors.left: parent.left
 
             Repeater {
-                model: appController.mixerModel     //mixer.channelModel                                                // mock
+                id: channelsRepeater
+                model: appController.mixerModel
                 ChannelStrip {
                     height: mixer.height
                     channelIndex: index
@@ -78,25 +82,56 @@ Rectangle {
                         onTapped: function(event, button) {
 
                             if (button === Qt.LeftButton) {
-                                mixer.selectedChannelIndex =
-                                    mixer.selectedChannelIndex === channelIndex
-                                    ? -1
-                                    : channelIndex
+                                if (mixer.selectedChannelIndex === channelIndex) {
+                                    mixer.selectedChannelIndex = -1
+                                }
+                                else {
+                                    mixer.selectedChannelIndex = channelIndex
+                                    mixer.backgroundSelected = false
+                                }
                             }
 
                             else if (button === Qt.RightButton) {
                                 console.log("right click")
                                 mixer.selectedChannelIndex = channelIndex
-                                trackContextMenu.openAt(
-                                    event.scenePosition.x,
-                                    event.scenePosition.y
-                                )
-                                onOpened: console.log("popup opened at", event.scenePosition.x, event.scenePosition.y)
+                                mixer.backgroundSelected = false
+                                trackContextMenu.openAt(event.scenePosition.x, event.scenePosition.y)
+                                onOpened: console.log("trackContextMenu opened at", event.scenePosition.x, event.scenePosition.y)
                             }
                         }
                     }
                 }
             }
+
+            MixerBackground {
+                id: mixerBackground
+                height: mixer.height
+                width: channelsRow.width - channelsRepeater.width
+                selected: mixer.backgroundSelected
+
+                TapHandler {
+                    acceptedButtons: Qt.LeftButton | Qt.RightButton
+
+                    onTapped: function(event, button) {
+                        if (button === Qt.LeftButton) {
+                            mixer.backgroundSelected = !mixer.backgroundSelected
+                            mixer.selectedChannelIndex = -1  // odznacz kanały
+                        }
+                        else if (button === Qt.RightButton) {
+                            mixer.backgroundSelected = true
+                            mixer.selectedChannelIndex = -1
+                            backgroundContextMenu.openAt(event.scenePosition.x, event.scenePosition.y)
+                            onOpened: console.log("backgroundContextMenu popup opened at", event.scenePosition.x, event.scenePosition.y)
+                        }
+                    }
+                }
+
+            }
         }
+    }
+
+    function clearSelection() {
+        selectedChannelIndex = -1
+        backgroundSelected = false
     }
 }
