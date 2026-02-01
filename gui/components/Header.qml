@@ -127,10 +127,11 @@ Rectangle {
 
     ListModel {
         id: fileModel
-        ListElement { actionId: "new_project";  label: "New Project" }
-        ListElement { actionId: "open_project"; label: "Open…" }
-        ListElement { actionId: "save";         label: "Save" }
-        ListElement { actionId: "export";       label: "Export Audio" }
+        ListElement { actionId: "new_project";   label: "New Project" }
+        ListElement { actionId: "open_project";  label: "Open…" }
+        ListElement { actionId: "close_project"; label: "Close" }
+        ListElement { actionId: "save";          label: "Save" }
+        ListElement { actionId: "export";        label: "Export Audio" }
     }
 
     ListModel {

@@ -5,7 +5,7 @@ import "../controls"
 import AudioMixer
 
 Item {
-    id: channel
+    id: root
     implicitHeight: 600
     implicitWidth: 164
     property int channelSpacing: 16
@@ -16,7 +16,7 @@ Item {
     property real stripWidth: implicitWidth
     width: stripWidth
 
-    property alias channelDisplayedName: channelName.text
+    property Channel channelModel
 
     property int channelIndex: -1
     property bool selected: false
@@ -32,21 +32,21 @@ Item {
         id: bg
         anchors.fill: parent
 
-        color: channel.hovered
+        color: root.hovered
                ? Themes.bghovered
                : highlighted
                  ? Themes.bgHover
                  : Themes.bgMain
 
-        border.color: channel.selected
+        border.color: root.selected
                       ? Themes.borderSelected
-                      : channel.hovered
+                      : root.hovered
                         ? Themes.borderhovered
                         : highlighted
                           ? Qt.lighter(Themes.borderHover, 1.4)
                           : Themes.borderIdle
 
-        border.width: channel.selected ? 3 : highlighted ? 2 : 1
+        border.width: root.selected ? 3 : highlighted ? 2 : 1
 
         /* subtle glow overlay */
         Rectangle {
@@ -64,22 +64,33 @@ Item {
 
     Column {
         id: channelColumn
-        anchors.horizontalCenter: channel.horizontalCenter
+        anchors.horizontalCenter: root.horizontalCenter
         spacing: channelSpacing
         padding: channelPadding
         topPadding: channelPadding * 2
 
         MixerMiniDisplay {
             id: channelName
-            width: channel.width - channelPadding * 4
+            width: root.width - channelPadding * 4
             anchors.horizontalCenter: channelColumn.horizontalCenter
-            text: "Audio Mixer UI - designed by Michal Herda 2026"
+            text: channelModel ? channelModel.name : "Audio Mixer UI - designed by Michal Herda 2026"
         }
 
         MuteSoloRow {
             id: muteSoloRow
-            width: channel.width - channelPadding * 2
+            width: root.width - channelPadding * 2
             anchors.horizontalCenter: channelColumn.horizontalCenter
+
+            /*
+
+            TODO:
+
+            mute: channelModel ? channelModel.mute : false
+            solo: channelModel ? channelModel.solo : false
+
+            onMuteToggled: if (channelModel) channelModel.mute = mute
+            onSoloToggled: if (channelModel) channelModel.solo = solo
+            */
         }
 
         Knob {
@@ -110,7 +121,9 @@ Item {
         VolumeFader {
             id: volumeFader
             anchors.horizontalCenter: channelColumn.horizontalCenter
-        }        
+            value: channelModel ? channelModel.volume : 0.0
+            onValueChanged: if (channelModel) channelModel.volume = value
+        }
     }
 
     Rectangle {
@@ -132,22 +145,22 @@ Item {
             property real startWidth
 
             onActiveChanged: {
-                channel.resizing = active
+                root.resizing = active
                 if (active)
-                    startWidth = channel.stripWidth
+                    startWidth = root.stripWidth
             }
 
             onTranslationChanged: {
-                channel.stripWidth = Math.max(
-                    channel.minW,
-                    Math.min(channel.maxW, startWidth + translation.x)
+                root.stripWidth = Math.max(
+                    root.minW,
+                    Math.min(root.maxW, startWidth + translation.x)
                 )
             }
         }
 
         HoverHandler {
             cursorShape: Qt.SizeHorCursor
-            onHoveredChanged: channel.handleHovered = hovered
+            onHoveredChanged: root.handleHovered = hovered
         }
     }
 

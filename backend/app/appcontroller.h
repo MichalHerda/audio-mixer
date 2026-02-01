@@ -2,6 +2,7 @@
 #define APPCONTROLLER_H
 
 #include <QObject>
+#include <QSettings>
 
 #include "backend/mixer/channellistmodel.h"
 #include "backend/mixer/channel.h"
@@ -10,7 +11,7 @@ class AppController : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(ChannelListModel* mixerModel READ mixerModel CONSTANT)
+    Q_PROPERTY(ChannelListModel* mixerModel READ mixerModel NOTIFY mixerModelChanged)
     //Q_PROPERTY(bool projectDirty READ projectDirty NOTIFY projectDirtyChanged)
 
 public:
@@ -19,6 +20,8 @@ public:
     ChannelListModel* mixerModel() const;
 
 public slots:
+    void handleMenuAction(const QString& actionId);
+
     //void newProject();
     //void openProject(const QUrl&);
     //void saveProject();
@@ -27,9 +30,16 @@ public slots:
     void deleteTrack(int index);
 
 private:
+    void loadMockupProject();
+    void closeProject();
+    void loadSettings();
+    void saveSettings();
+
     ChannelListModel* m_mixerModel = nullptr;
+    bool m_useMockupData = true;
 
 signals:
+    void mixerModelChanged();
 
 };
 

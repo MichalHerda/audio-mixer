@@ -14,6 +14,7 @@ Rectangle {
 
     property int hoveredChannelIndex: -1
     property int selectedChannelIndex: -1
+    /*
     property var channelModel: [                                                        // mock !
         "Kick Drum          Mic 1",
         "Snare Drum         Mic 2",
@@ -24,7 +25,7 @@ Rectangle {
         "Lead Vocal         Mic 6",
         "Backing Vocal      Mic 7"
     ]
-
+    */
     ContextMenu {
         id: trackContextMenu
         model: TrackMenuModel{}
@@ -54,11 +55,11 @@ Rectangle {
             anchors.left: parent.left
 
             Repeater {
-                model: mixer.channelModel                                                // mock
+                model: appController.mixerModel     //mixer.channelModel                                                // mock
                 ChannelStrip {
                     height: mixer.height
-                    channelDisplayedName: modelData
                     channelIndex: index
+                    channelModel: model.channel
                     hovered: mixer.hoveredChannelIndex === index
                     selected: mixer.selectedChannelIndex === index
 
