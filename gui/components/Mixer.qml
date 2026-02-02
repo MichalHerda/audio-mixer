@@ -112,7 +112,6 @@ Rectangle {
             MixerBackground {
                 id: mixerBackground
                 height: mixer.height
-                //width: channelsRow.width - channelsRepeater.width
                 width: Math.max(
                    flick.width - channelsRepeater.width,
                    implicitWidth

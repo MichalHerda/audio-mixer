@@ -53,6 +53,10 @@ qt_add_qml_module(appAudioMixer
         backend/mixer/channellistmodel.cpp
         backend/app/appcontroller.h
         backend/app/appcontroller.cpp
+        backend/project/channelstate.h
+        backend/project/project.h
+        backend/project/projectserializer.h
+        backend/project/projectserializer.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

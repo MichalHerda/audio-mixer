@@ -85,3 +85,25 @@ void Channel::setSource(const QString &source)
     m_source = source;
     emit sourceChanged();
 }
+
+ChannelState Channel::state() const
+{
+    return {
+        m_name,
+        m_volume,
+        m_pan,
+        m_mute,
+        m_solo,
+        m_source
+    };
+}
+
+void Channel::applyState(const ChannelState &s)
+{
+    setName(s.name);
+    setVolume(s.volume);
+    setPan(s.pan);
+    setMute(s.mute);
+    setSolo(s.solo);
+    setSource(s.source);
+}

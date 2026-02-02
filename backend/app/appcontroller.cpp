@@ -16,6 +16,11 @@ ChannelListModel *AppController::mixerModel() const
      return m_mixerModel;
 }
 
+bool AppController::projectDirty() const
+{
+    return m_projectDirty;
+}
+
 void AppController::handleAction(const QString &actionId, int trackIndex)
 {
     if (actionId == "close_project") {
@@ -28,6 +33,51 @@ void AppController::handleAction(const QString &actionId, int trackIndex)
         if (trackIndex >= 0)
             deleteTrack(trackIndex);
     }
+}
+
+void AppController::newProject()
+{
+    m_mixerModel->clear();
+    m_projectName = "Untitled";
+    m_projectDirty = false;
+    emit projectDirtyChanged();
+}
+
+bool AppController::openProject(const QString& path)
+{
+    Project project;
+    if (!ProjectSerializer::load(project, path))
+        return false;
+
+    m_mixerModel->clear();
+
+    for (const auto& chState : project.channels) {
+        Channel* ch = new Channel(m_mixerModel);
+        ch->applyState(chState);
+        m_mixerModel->addChannel(ch);
+    }
+
+    m_projectName = project.name;
+    m_projectDirty = false;
+    emit projectDirtyChanged();
+    return true;
+}
+
+bool AppController::saveProject(const QString& path)
+{
+    Project project;
+    project.name = m_projectName;
+
+    for (int i = 0; i < m_mixerModel->rowCount(); ++i) {
+        project.channels.append(m_mixerModel->channelAt(i)->state());
+    }
+
+    if (!ProjectSerializer::save(project, path))
+        return false;
+
+    m_projectDirty = false;
+    emit projectDirtyChanged();
+    return true;
 }
 
 void AppController::addAudioTrack(int insertAfter)

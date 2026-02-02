@@ -2,6 +2,7 @@
 #define CHANNEL_H
 
 #include <QObject>
+#include "backend/project/channelstate.h"
 
 class Channel : public QObject
 {
@@ -36,6 +37,9 @@ public:
 
     QString source() const;
     void setSource(const QString &source);
+
+    ChannelState state() const;
+    void applyState(const ChannelState& s);
 
 private:
     QString m_name;
