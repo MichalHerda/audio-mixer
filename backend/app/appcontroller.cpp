@@ -16,30 +16,40 @@ ChannelListModel *AppController::mixerModel() const
      return m_mixerModel;
 }
 
-void AppController::handleMenuAction(const QString &actionId)
+void AppController::handleAction(const QString &actionId, int trackIndex)
 {
     if (actionId == "close_project") {
         closeProject();
     }
+    else if (actionId == "add_audio_track") {
+        addAudioTrack(trackIndex);
+    }
+    else if (actionId == "delete_track") {
+        if (trackIndex >= 0)
+            deleteTrack(trackIndex);
+    }
 }
 
-void AppController::addAudioTrack()
+void AppController::addAudioTrack(int insertAfter)
 {
-    auto *channel = new Channel;
+    auto* channel = new Channel;
 
-    channel->setName(QStringLiteral("Audio Track %1").arg(m_mixerModel->rowCount()));
+    channel->setName(QStringLiteral("Audio Track %1")
+                         .arg(m_mixerModel->rowCount() + 1));
 
-    channel->setVolume(1.0f);
-    channel->setPan(0.0f);
-    channel->setMute(false);
-    channel->setSolo(false);
-    channel->setSource(QString());
+    int insertIndex =
+        (insertAfter >= 0)
+            ? insertAfter + 1
+            : m_mixerModel->rowCount();
 
-    m_mixerModel->addChannel(channel);
+    m_mixerModel->addChannel(channel, insertIndex);
 }
 
 void AppController::deleteTrack(int index)
 {
+    if (index < 0)
+        return;
+
     m_mixerModel->removeChannel(index);
 }
 

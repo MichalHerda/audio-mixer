@@ -20,13 +20,13 @@ public:
     ChannelListModel* mixerModel() const;
 
 public slots:
-    void handleMenuAction(const QString& actionId);
+    void handleAction(const QString& actionId, int trackIndex = -1);
 
     //void newProject();
     //void openProject(const QUrl&);
     //void saveProject();
 
-    void addAudioTrack();
+    void addAudioTrack(int index);
     void deleteTrack(int index);
 
 private:

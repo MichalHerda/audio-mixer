@@ -85,18 +85,3 @@ void Channel::setSource(const QString &source)
     m_source = source;
     emit sourceChanged();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

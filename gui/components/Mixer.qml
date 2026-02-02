@@ -1,5 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Layouts
+import QtQuick.Controls
 import AudioMixer
 import "../components"
 import "../menus"
@@ -23,7 +24,7 @@ Rectangle {
         onMenuAction: function(actionId) {
             console.log("Track context action:", actionId,
                         "on channel:", selectedChannelIndex)
-            appController.handleTrackAction(actionId, selectedChannelIndex)
+            appController.handleAction(actionId, selectedChannelIndex)
         }
     }
 
@@ -34,7 +35,7 @@ Rectangle {
         onMenuAction: function(actionId) {
             console.log("Track context action:", actionId,
                         "on mixer background")
-            appController.handleBackgroundAction(actionId)
+            appController.handleAction(actionId, selectedChannelIndex)
         }
     }
 
@@ -43,7 +44,7 @@ Rectangle {
         id: flick
         anchors.fill: parent
 
-        contentWidth: channelsRow.width
+        contentWidth: channelsRow.childrenRect.width
         contentHeight: height
 
         flickableDirection: Flickable.HorizontalFlick
@@ -51,9 +52,14 @@ Rectangle {
 
         interactive: !appMixer.resizing
 
+        ScrollBar.horizontal: ScrollBar {
+            policy: ScrollBar.AlwaysOn
+            implicitHeight: 18
+        }
+
         Row {
             id: channelsRow
-            width: flick.width
+            width: childrenRect.width
             spacing: 5
             anchors.left: parent.left
 
@@ -106,7 +112,11 @@ Rectangle {
             MixerBackground {
                 id: mixerBackground
                 height: mixer.height
-                width: channelsRow.width - channelsRepeater.width
+                //width: channelsRow.width - channelsRepeater.width
+                width: Math.max(
+                   flick.width - channelsRepeater.width,
+                   implicitWidth
+               )
                 selected: mixer.backgroundSelected
 
                 TapHandler {
@@ -134,4 +144,15 @@ Rectangle {
         selectedChannelIndex = -1
         backgroundSelected = false
     }
+/*
+    Timer {
+        id: debugTimer
+        interval: 5000
+        repeat: true
+        running: true
+        onTriggered: {
+            console.log("current index: ", selectedChannelIndex )
+        }
+    }
+*/
 }

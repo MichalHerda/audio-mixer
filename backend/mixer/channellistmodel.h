@@ -26,6 +26,7 @@ public:
 
     Channel* channelAt(int index) const;
     void addChannel(Channel* channel);
+    void addChannel(Channel* channel, int index);
     void removeChannel(int index);
     void clear();
 

@@ -55,14 +55,21 @@ Channel *ChannelListModel::channelAt(int index) const
 
 void ChannelListModel::addChannel(Channel *channel)
 {
+    addChannel(channel, m_channels.size());
+}
+
+void ChannelListModel::addChannel(Channel *channel, int index)
+{
     if (!channel)
         return;
 
     channel->setParent(this);
 
-    const int index = m_channels.size();
+    if (index < 0 || index > m_channels.size())
+        index = m_channels.size();
+
     beginInsertRows(QModelIndex(), index, index);
-    m_channels.append(channel);
+    m_channels.insert(index, channel);
     endInsertRows();
 }
 
