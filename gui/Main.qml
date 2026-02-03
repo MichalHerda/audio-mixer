@@ -4,6 +4,7 @@ import QtQuick.Layouts
 import AudioMixer
 
 import "./components"
+import "./dialogs"
 
 Window {
     id: root
@@ -48,6 +49,55 @@ Window {
             id: appMixer
             SplitView.fillHeight: true
             SplitView.minimumHeight: 100
+        }
+    }
+
+    ProjectFileDialog {
+        id: projectFileDialog
+    }
+
+    ConfirmDialog {
+        id: confirmDialog
+    }
+
+    Connections {
+        target: appController
+
+        function onRequestOpenProject() {
+            if (appController.projectDirty) {
+                confirmDialog.openFor("open")
+            }
+            else {
+                projectFileDialog.openForOpen()
+            }
+        }
+
+        function onRequestSaveProject() {
+            projectFileDialog.openForSave()
+        }
+
+        function onRequestNewProject() {
+            if (appController.projectDirty) {
+                confirmDialog.openFor("new")
+            }
+            else {
+                appController.newProject()
+            }
+        }
+    }
+
+    Connections {
+        target: projectFileDialog
+
+        function onFileSelected(path) {
+            if (projectFileDialog.mode === "open") {
+                console.log("OPEN:", path)
+                appController.openProject(path)
+            }
+            else {
+                console.log("SAVE:", path)
+                appController.saveProject(path)
+            }
         }
     }
 }

@@ -57,6 +57,8 @@ qt_add_qml_module(appAudioMixer
         backend/project/project.h
         backend/project/projectserializer.h
         backend/project/projectserializer.cpp
+        gui/dialogs/ProjectFileDialog.qml
+        gui/dialogs/ConfirmDialog.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

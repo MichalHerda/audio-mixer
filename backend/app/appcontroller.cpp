@@ -33,6 +33,16 @@ void AppController::handleAction(const QString &actionId, int trackIndex)
         if (trackIndex >= 0)
             deleteTrack(trackIndex);
     }
+    else if (actionId == "open_project") {
+        emit requestOpenProject();
+    }
+    else if (actionId == "save") {
+        qDebug() << "requestSaveProject";
+        emit requestSaveProject();
+    }
+    else if (actionId == "new_project") {
+        emit requestNewProject();
+    }
 }
 
 void AppController::newProject()
@@ -45,8 +55,11 @@ void AppController::newProject()
 
 bool AppController::openProject(const QString& path)
 {
+    QUrl url(path);
+    QString localPath = url.isLocalFile() ? url.toLocalFile() : path;
+
     Project project;
-    if (!ProjectSerializer::load(project, path))
+    if (!ProjectSerializer::load(project, localPath))
         return false;
 
     m_mixerModel->clear();
@@ -65,6 +78,9 @@ bool AppController::openProject(const QString& path)
 
 bool AppController::saveProject(const QString& path)
 {
+    QUrl url(path);
+    QString localPath = url.isLocalFile() ? url.toLocalFile() : path;
+
     Project project;
     project.name = m_projectName;
 
@@ -72,7 +88,7 @@ bool AppController::saveProject(const QString& path)
         project.channels.append(m_mixerModel->channelAt(i)->state());
     }
 
-    if (!ProjectSerializer::save(project, path))
+    if (!ProjectSerializer::save(project, localPath))
         return false;
 
     m_projectDirty = false;
@@ -130,7 +146,7 @@ void AppController::closeProject()
     m_useMockupData = false;
     saveSettings();
 
-    emit mixerModelChanged();
+    emit mixerModelChanged();               // <--- TODO: should it be here?
 }
 
 void AppController::loadSettings()

@@ -43,6 +43,7 @@ Rectangle {
             onClicked: header.activateTile(tileIndex, true)
 
             onOptionTriggered: function(optionId) {
+                console.log("option file triggered")
                 header.openIndex = -1
                 header.menuAction(optionId)
             }
@@ -122,7 +123,6 @@ Rectangle {
                 header.menuAction(optionId)
             }
         }
-
     }
 
     ListModel {
@@ -169,6 +169,4 @@ Rectangle {
         ListElement { actionId: "open_docs";      label: "Documentation" }
         ListElement { actionId: "about_app";      label: "About AudioMixer" }
     }
-
-
 }

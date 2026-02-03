@@ -45,6 +45,9 @@ private:
 signals:
     void mixerModelChanged();
     void projectDirtyChanged();
+    void requestOpenProject();
+    void requestSaveProject();
+    void requestNewProject();
 
 };
 
