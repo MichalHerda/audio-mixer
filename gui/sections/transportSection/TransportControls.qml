@@ -15,7 +15,7 @@ Rectangle {
 
         TransportButton {
             buttonText: "REW"
-            mode: TransportButton.Momentary
+            //mode: TransportButton.Momentary
             //onClicked: state.rewind()
         }
 
@@ -33,13 +33,13 @@ Rectangle {
 
         TransportButton {
             buttonText: "REC"
-            mode: TransportButton.Momentary
+            //mode: TransportButton.Momentary
             //onClicked: state.stop()
         }
 
         TransportButton {
             buttonText: "STOP"
-            enabled: false                                  // TODO
+            //enabled: false                                  // TODO
             //isOn: state.recording
         }
 

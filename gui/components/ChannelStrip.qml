@@ -81,16 +81,18 @@ Item {
             width: root.width - channelPadding * 2
             anchors.horizontalCenter: channelColumn.horizontalCenter
 
-            /*
-
-            TODO:
-
             mute: channelModel ? channelModel.mute : false
             solo: channelModel ? channelModel.solo : false
 
-            onMuteToggled: if (channelModel) channelModel.mute = mute
-            onSoloToggled: if (channelModel) channelModel.solo = solo
-            */
+            onMuteToggled: function(muteValue) {
+                if (channelModel)
+                    channelModel.mute = muteValue
+            }
+
+            onSoloToggled: function(soloValue) {
+                if (channelModel)
+                    channelModel.solo = soloValue
+            }
         }
 
         Knob {

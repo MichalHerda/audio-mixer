@@ -6,6 +6,12 @@ Item {
     implicitHeight: 48
     implicitWidth: 144
 
+    property bool mute: false
+    property bool solo: false
+
+    signal muteToggled(bool mute)
+    signal soloToggled(bool solo)
+
     Row {
         id: muteSoloRow
         anchors.fill: parent
@@ -18,6 +24,12 @@ Item {
             buttonColorBorderPressed: "green"
             lightColorOn: "lightGreen"
             buttonText: "SOLO"
+
+            isOn: root.solo
+
+            onMixerButtonClicked: {
+                root.soloToggled(!root.solo)
+            }
         }
 
         MixerButton {
@@ -26,6 +38,12 @@ Item {
             buttonColorBorderPressed: "tomato"
             lightColorOn: "red"
             buttonText: "MUTE"
+
+            isOn: root.mute
+
+            onMixerButtonClicked: {
+                root.muteToggled(!root.mute)
+            }
         }
     }
 }

@@ -110,7 +110,6 @@ Item {
             hoverEnabled: true
 
             onClicked: {
-                isOn = !isOn
                 mixerButtonClicked()
             }
             onPressed: {
@@ -120,7 +119,6 @@ Item {
 
             onReleased: {
                 mixerButton.scale = 1.0
-                mixerButtonClicked()
                 pressing = false
             }
 
@@ -154,6 +152,4 @@ Item {
             easing.type: Easing.InOutSine
         }
     }
-
-
 }

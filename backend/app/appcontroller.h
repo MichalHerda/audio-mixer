@@ -36,10 +36,14 @@ private:
     void closeProject();
     void loadSettings();
     void saveSettings();
+    void markProjectDirty();
+    void registerChannel(Channel* channel);
 
     ChannelListModel* m_mixerModel = nullptr;
     bool m_projectDirty = false;
     bool m_useMockupData = true;
+    bool m_loadingProject = false;
+
     QString m_projectName = "";
 
 signals:

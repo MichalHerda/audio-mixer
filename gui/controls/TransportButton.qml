@@ -14,10 +14,13 @@ MixerButton {
     property int mode: TransportButton.Toggle
 
     onMixerButtonClicked: {
-        if (mode === TransportButton.Momentary) {
-            isOn = false
+        if (mode === TransportButton.Toggle) {
+           isOn = !isOn
         }
-        clicked()
+        else {
+           isOn = true
+        }
+       clicked()
     }
 
     signal clicked()

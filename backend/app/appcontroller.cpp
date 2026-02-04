@@ -63,10 +63,12 @@ bool AppController::openProject(const QString& path)
         return false;
 
     m_mixerModel->clear();
+    m_loadingProject = true;
 
     for (const auto& chState : project.channels) {
         Channel* ch = new Channel(m_mixerModel);
         ch->applyState(chState);
+        registerChannel(ch);
         m_mixerModel->addChannel(ch);
     }
 
@@ -103,6 +105,8 @@ void AppController::addAudioTrack(int insertAfter)
     channel->setName(QStringLiteral("Audio Track %1")
                          .arg(m_mixerModel->rowCount() + 1));
 
+    registerChannel(channel);
+
     int insertIndex =
         (insertAfter >= 0)
             ? insertAfter + 1
@@ -126,6 +130,7 @@ void AppController::loadMockupProject()
     auto add = [this](const QString& name) {
         auto* ch = new Channel(m_mixerModel);
         ch->setName(name);
+        registerChannel(ch);
         m_mixerModel->addChannel(ch);
     };
 
@@ -159,4 +164,26 @@ void AppController::saveSettings()
 {
     QSettings settings;
     settings.setValue("project/useMockupData", m_useMockupData);
+}
+
+void AppController::markProjectDirty()
+{
+    if (m_loadingProject || m_projectDirty)
+        return;
+
+    m_projectDirty = true;
+    emit projectDirtyChanged();
+}
+
+void AppController::registerChannel(Channel *channel)
+{
+    if (!channel)
+        return;
+
+    connect(channel, &Channel::volumeChanged, this, &AppController::markProjectDirty);
+    connect(channel, &Channel::panChanged,    this, &AppController::markProjectDirty);
+    connect(channel, &Channel::muteChanged,   this, &AppController::markProjectDirty);
+    connect(channel, &Channel::soloChanged,   this, &AppController::markProjectDirty);
+    connect(channel, &Channel::nameChanged,   this, &AppController::markProjectDirty);
+    connect(channel, &Channel::sourceChanged, this, &AppController::markProjectDirty);
 }
