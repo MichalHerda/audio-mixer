@@ -21,7 +21,7 @@ Item {
 
     property color labelColor: "grey"
 
-    //signal valueChanged(real value)
+    signal faderValueChanged(real value)
 
     /* ===== MODEL ===== */
     Slider {
@@ -31,9 +31,12 @@ Item {
 
         from: fader.from
         to: fader.to
-        value: fader.from
+        value: fader.value
 
-        //onValueChanged: fader.valueChanged(value)
+        onValueChanged: {
+            console.log("onValue changed")
+            fader.faderValueChanged(value)
+        }
     }
 
     /* ===== VISUAL ===== */

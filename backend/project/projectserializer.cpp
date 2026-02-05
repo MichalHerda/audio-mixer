@@ -13,6 +13,7 @@ bool ProjectSerializer::save(const Project &project, const QString &path)
         QJsonObject chObj;
         chObj["name"] = ch.name;
         chObj["volume"] = ch.volume;
+        chObj["gain"] = ch.gain;
         chObj["pan"] = ch.pan;
         chObj["mute"] = ch.mute;
         chObj["solo"] = ch.solo;
@@ -67,6 +68,7 @@ bool ProjectSerializer::load(Project &project, const QString &path)
         ChannelState chState;
         chState.name   = chObj.value("name").toString();
         chState.volume = static_cast<float>(chObj.value("volume").toDouble());
+        chState.gain   = static_cast<float>(chObj.value("gain").toDouble());
         chState.pan    = static_cast<float>(chObj.value("pan").toDouble());
         chState.mute   = chObj.value("mute").toBool();
         chState.solo   = chObj.value("solo").toBool();

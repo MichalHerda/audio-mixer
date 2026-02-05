@@ -181,6 +181,7 @@ void AppController::registerChannel(Channel *channel)
         return;
 
     connect(channel, &Channel::volumeChanged, this, &AppController::markProjectDirty);
+    connect(channel, &Channel::gainChanged, this, &AppController::markProjectDirty);
     connect(channel, &Channel::panChanged,    this, &AppController::markProjectDirty);
     connect(channel, &Channel::muteChanged,   this, &AppController::markProjectDirty);
     connect(channel, &Channel::soloChanged,   this, &AppController::markProjectDirty);

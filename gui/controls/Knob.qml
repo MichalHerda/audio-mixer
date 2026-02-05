@@ -10,7 +10,7 @@ Item {
 
     property real from: 0.0
     property real to: 1.0
-    property real value: slider.value
+    property real value: from
     property string label: ""
     property color knobColor: "black"
     property color borderColor: "grey"
@@ -20,7 +20,6 @@ Item {
     readonly property bool highlighted:  knobMouseArea.containsMouse || knob.isDraggingNow
     property bool shine: true
     property real highlightPhase: 0.0
-
 
     signal sliderValueChanged(real value)
 
@@ -39,8 +38,13 @@ Item {
         visible: false
         from: knob.from
         to: knob.to
-        value: knob.from
-        onValueChanged: knob.sliderValueChanged(value)
+        value: knob.value
+        onValueChanged: {
+            if (!isDraggingNow) {
+                knob.value = slider.value
+            }
+            knob.sliderValueChanged(slider.value)
+        }
     }
 
 

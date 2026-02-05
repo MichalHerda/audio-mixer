@@ -32,6 +32,20 @@ void Channel::setVolume(float volume)
     emit volumeChanged();
 }
 
+float Channel::gain() const
+{
+    return m_gain;
+}
+
+void Channel::setGain(float gain)
+{
+    if (qFuzzyCompare(m_gain, gain))
+        return;
+
+    m_gain = gain;
+    emit gainChanged();
+}
+
 float Channel::pan() const
 {
     return m_pan;
@@ -91,6 +105,7 @@ ChannelState Channel::state() const
     return {
         m_name,
         m_volume,
+        m_gain,
         m_pan,
         m_mute,
         m_solo,
@@ -102,6 +117,7 @@ void Channel::applyState(const ChannelState &s)
 {
     setName(s.name);
     setVolume(s.volume);
+    setGain(s.gain);
     setPan(s.pan);
     setMute(s.mute);
     setSolo(s.solo);

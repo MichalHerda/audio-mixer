@@ -100,9 +100,16 @@ Item {
             anchors.horizontalCenter: channelColumn.horizontalCenter
             label: "GAIN"
             indicatorColor: "red"
-            from: 20
-            to: 20000
-            value: 1000
+
+            from: 0.0
+            to: 10.0
+
+            value: channelModel ? channelModel.gain : 1.0
+
+            onSliderValueChanged: function(v) {
+               if (channelModel)
+                   channelModel.gain = v
+            }
         }
 
         EQSection {
@@ -115,16 +122,23 @@ Item {
             anchors.horizontalCenter: channelColumn.horizontalCenter
             label: "PAN"
             indicatorColor: "white"
-            from: 20
-            to: 20000
-            value: 9990
+            from: -1
+            to: 1
+            value: channelModel ? channelModel.pan : 0.0
+            onSliderValueChanged: function(value) {
+                if (channelModel)
+                    channelModel.pan = value
+            }
         }
 
         VolumeFader {
             id: volumeFader
             anchors.horizontalCenter: channelColumn.horizontalCenter
             value: channelModel ? channelModel.volume : 0.0
-            onValueChanged: if (channelModel) channelModel.volume = value
+            onFaderValueChanged: function(value) {
+                if (channelModel)
+                    channelModel.volume = value
+            }
         }
     }
 

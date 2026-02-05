@@ -9,7 +9,10 @@ class Channel : public QObject
     Q_OBJECT
 
     Q_PROPERTY(QString name READ name WRITE setName NOTIFY nameChanged)
+
     Q_PROPERTY(float volume READ volume WRITE setVolume NOTIFY volumeChanged)
+    Q_PROPERTY(float gain READ gain WRITE setGain NOTIFY gainChanged)
+
     Q_PROPERTY(float pan READ pan WRITE setPan NOTIFY panChanged)
 
     Q_PROPERTY(bool mute READ mute WRITE setMute NOTIFY muteChanged)
@@ -25,6 +28,9 @@ public:
 
     float volume() const;
     void setVolume(float volume);
+
+    float gain() const;
+    void setGain(float gain);
 
     float pan() const;
     void setPan(float pan);
@@ -44,15 +50,16 @@ public:
 private:
     QString m_name;
     float   m_volume = 1.0f;
+    float   m_gain = 1.0f;
     float   m_pan = 0.0f;
     bool    m_mute = false;
     bool    m_solo = false;
     QString m_source;
 
-
 signals:
     void nameChanged();
     void volumeChanged();
+    void gainChanged();
     void panChanged();
     void muteChanged();
     void soloChanged();

@@ -19,29 +19,23 @@ Item {
             from: -12
             to: 12
             value: 0
-            //borderColor: highColor
             indicatorColor: highColor
-            //labelColor: highColor
         }
 
         Knob {
             label: "MID"
-            from: 20
-            to: 20000
-            value: 1000
-            //borderColor: midColor
+            from: -12
+            to: 12
+            value: 0
             indicatorColor: midColor
-            //labelColor: midColor
         }
 
         Knob {
             label: "LOW"
-            from: 0.1
-            to: 10
-            value: 1
-            //borderColor: lowColor
+            from: -12
+            to: 12
+            value: 0
             indicatorColor: lowColor
-            //labelColor: lowColor
         }
     }
 }
