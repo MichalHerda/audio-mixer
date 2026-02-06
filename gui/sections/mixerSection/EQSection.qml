@@ -24,36 +24,39 @@ Item {
             value: eqModel ? eqModel.high : 0
             indicatorColor: highColor
 
-            onSliderValueChanged:
+            onSliderValueChanged: function(value) {
                 if (eqModel) {
                     eqModel.high = value
                 }
+            }
         }
 
         Knob {
             label: "MID"
             from: -12
             to: 12
-            value: eqModel ? eqModel.high : 0
+            value: eqModel ? eqModel.mid : 0
             indicatorColor: midColor
 
-            onSliderValueChanged:
+            onSliderValueChanged: function(value) {
                 if (eqModel) {
                     eqModel.mid = value
                 }
+            }
         }
 
         Knob {
             label: "LOW"
             from: -12
             to: 12
-            value: eqModel ? eqModel.high : 0
+            value: eqModel ? eqModel.low : 0
             indicatorColor: lowColor
 
-            onSliderValueChanged:
+            onSliderValueChanged: function(value) {
                 if (eqModel) {
                     eqModel.low = value
                 }
+            }
         }
     }
 }

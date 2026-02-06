@@ -42,9 +42,62 @@ Popup {
         }
     }
 
+    MouseArea {
+        id: globalMouseTracker
+        parent: popup.parent   // Overlay.overlay
+        anchors.fill: parent
+        hoverEnabled: true
+        acceptedButtons: Qt.NoButton
+        propagateComposedEvents: true
+        visible: popup.visible
+
+        onPositionChanged: function(mouse) {
+            if (!popup.visible)
+                return
+
+            if (popup.isCursorFarEnough(mouse.x, mouse.y)) {
+                popup.close()
+            }
+        }
+    }
+
     function openAt(globalX, globalY) {
-        x = globalX
-        y = globalY
-        open()
+        const overlay = popup.parent
+
+            let px = globalX
+            let py = globalY
+
+            // vertical:
+            if (px + width > overlay.width) {
+                px = globalX - width
+            }
+
+            // horizontal:
+            if (py + height > overlay.height) {
+                py = globalY - height
+            }
+
+            // protection (do not go beyond the screen on the other side):
+            px = Math.max(0, px)
+            py = Math.max(0, py)
+
+            x = px
+            y = py
+            open()
+    }
+
+    function isCursorFarEnough(globalX, globalY) {
+        const thresholdX = width * 0.5
+        const thresholdY = height * 0.5
+
+        const left   = x - thresholdX
+        const right  = x + width + thresholdX
+        const top    = y - thresholdY
+        const bottom = y + height + thresholdY
+
+        return globalX < left
+            || globalX > right
+            || globalY < top
+            || globalY > bottom
     }
 }
