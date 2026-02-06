@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include "backend/project/channelstate.h"
+#include "eq.h"
 
 class Channel : public QObject
 {
@@ -19,6 +20,8 @@ class Channel : public QObject
     Q_PROPERTY(bool solo READ solo WRITE setSolo NOTIFY soloChanged)
 
     Q_PROPERTY(QString source READ source WRITE setSource NOTIFY sourceChanged)
+
+    Q_PROPERTY(EQ* eq READ eq CONSTANT)
 
 public:
     explicit Channel(QObject *parent = nullptr);
@@ -44,6 +47,8 @@ public:
     QString source() const;
     void setSource(const QString &source);
 
+    EQ* eq() const;
+
     ChannelState state() const;
     void applyState(const ChannelState& s);
 
@@ -55,6 +60,7 @@ private:
     bool    m_mute = false;
     bool    m_solo = false;
     QString m_source;
+    EQ* m_eq;
 
 signals:
     void nameChanged();

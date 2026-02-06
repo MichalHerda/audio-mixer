@@ -1,5 +1,6 @@
 import QtQuick 2.15
 import "../../controls"
+import AudioMixer
 
 Item {
     id: eq
@@ -10,6 +11,8 @@ Item {
     property color midColor: "green"
     property color lowColor: "blue"
 
+    property EQ eqModel
+
     Column {
         anchors.fill: parent
         spacing: 8
@@ -18,24 +21,39 @@ Item {
             label: "HIGH"
             from: -12
             to: 12
-            value: 0
+            value: eqModel ? eqModel.high : 0
             indicatorColor: highColor
+
+            onSliderValueChanged:
+                if (eqModel) {
+                    eqModel.high = value
+                }
         }
 
         Knob {
             label: "MID"
             from: -12
             to: 12
-            value: 0
+            value: eqModel ? eqModel.high : 0
             indicatorColor: midColor
+
+            onSliderValueChanged:
+                if (eqModel) {
+                    eqModel.mid = value
+                }
         }
 
         Knob {
             label: "LOW"
             from: -12
             to: 12
-            value: 0
+            value: eqModel ? eqModel.high : 0
             indicatorColor: lowColor
+
+            onSliderValueChanged:
+                if (eqModel) {
+                    eqModel.low = value
+                }
         }
     }
 }

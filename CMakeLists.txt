@@ -51,11 +51,14 @@ qt_add_qml_module(appAudioMixer
     SOURCES
         backend/mixer/channel.h
         backend/mixer/channel.cpp
+        backend/mixer/eq.h
+        backend/mixer/eq.cpp
         backend/mixer/channellistmodel.h
         backend/mixer/channellistmodel.cpp
         backend/app/appcontroller.h
         backend/app/appcontroller.cpp
         backend/project/channelstate.h
+        backend/project/eqstate.h
         backend/project/project.h
         backend/project/projectserializer.h
         backend/project/projectserializer.cpp

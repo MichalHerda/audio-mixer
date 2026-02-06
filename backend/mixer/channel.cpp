@@ -1,8 +1,10 @@
 #include "channel.h"
 
 Channel::Channel(QObject *parent)
-    : QObject{parent}
-{}
+    : QObject{parent}, m_eq(new EQ(this))
+{
+
+}
 
 QString Channel::name() const
 {
@@ -100,17 +102,27 @@ void Channel::setSource(const QString &source)
     emit sourceChanged();
 }
 
+EQ *Channel::eq() const
+{
+    return m_eq;
+}
+
 ChannelState Channel::state() const
 {
-    return {
-        m_name,
-        m_volume,
-        m_gain,
-        m_pan,
-        m_mute,
-        m_solo,
-        m_source
-    };
+    ChannelState s;
+    s.name   = m_name;
+    s.volume = m_volume;
+    s.gain   = m_gain;
+    s.pan    = m_pan;
+    s.mute   = m_mute;
+    s.solo   = m_solo;
+    s.source = m_source;
+
+    s.eq.low  = m_eq->low();
+    s.eq.mid  = m_eq->mid();
+    s.eq.high = m_eq->high();
+
+    return s;
 }
 
 void Channel::applyState(const ChannelState &s)
@@ -122,4 +134,8 @@ void Channel::applyState(const ChannelState &s)
     setMute(s.mute);
     setSolo(s.solo);
     setSource(s.source);
+
+    m_eq->setLow(s.eq.low);
+    m_eq->setMid(s.eq.mid);
+    m_eq->setHigh(s.eq.high);
 }

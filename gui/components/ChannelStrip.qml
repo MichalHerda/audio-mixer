@@ -115,6 +115,7 @@ Item {
         EQSection {
             id: eqSection
             anchors.horizontalCenter: channelColumn.horizontalCenter
+            eqModel: channelModel ? channelModel.eq : null
         }
 
         Knob {

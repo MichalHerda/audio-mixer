@@ -18,6 +18,11 @@ bool ProjectSerializer::save(const Project &project, const QString &path)
         chObj["mute"] = ch.mute;
         chObj["solo"] = ch.solo;
         chObj["source"] = ch.source;
+        QJsonObject eqObj;
+        eqObj["low"]  = ch.eq.low;
+        eqObj["mid"]  = ch.eq.mid;
+        eqObj["high"] = ch.eq.high;
+        chObj["eq"] = eqObj;
         channels.append(chObj);
     }
 
@@ -73,6 +78,11 @@ bool ProjectSerializer::load(Project &project, const QString &path)
         chState.mute   = chObj.value("mute").toBool();
         chState.solo   = chObj.value("solo").toBool();
         chState.source = chObj.value("source").toString();
+
+        QJsonObject eqObj = chObj["eq"].toObject();
+        chState.eq.low  = static_cast<float>(eqObj.value("low").toDouble(0.0));
+        chState.eq.mid  = static_cast<float>(eqObj.value("mid").toDouble(0.0));
+        chState.eq.high = static_cast<float>(eqObj.value("high").toDouble(0.0));
 
         project.channels.append(chState);
     }

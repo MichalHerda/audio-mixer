@@ -1,5 +1,6 @@
 #pragma once
 #include <QString>
+#include "eqstate.h"
 
 struct ChannelState {
     QString name;
@@ -9,5 +10,7 @@ struct ChannelState {
     bool mute;
     bool solo;
     QString source;
+
+    EQState eq;
 };
 

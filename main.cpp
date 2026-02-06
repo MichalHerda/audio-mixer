@@ -17,6 +17,12 @@ int main(int argc, char *argv[])
         "Channel",
         "Channel is a backend-only type"
     );
+    qmlRegisterUncreatableType<EQ>(
+        "AudioMixer",
+        1, 0,
+        "EQ",
+        "EQ is a backend-only type"
+    );
 
     QQmlApplicationEngine engine;
 
