@@ -72,6 +72,15 @@ Window {
             }
         }
 
+        function onRequestCloseProject() {
+            if (appController.projectDirty) {
+                confirmDialog.openFor("close")
+            }
+            else {
+                appController.closeProject()
+            }
+        }
+
         function onRequestSaveProject() {
             projectFileDialog.openForSave()
         }
@@ -98,6 +107,16 @@ Window {
                 console.log("SAVE:", path)
                 appController.saveProject(path)
             }
+        }
+    }
+
+    Timer {
+        id: debugTimer
+        interval: 5000
+        repeat: true
+        running: true
+        onTriggered: {
+            console.log("project dirty: ", appController.projectDirty )
         }
     }
 }

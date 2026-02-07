@@ -47,6 +47,7 @@ qt_add_qml_module(appAudioMixer
         gui/menus/BackgroundTrackMenuModel.qml
         gui/dialogs/ProjectFileDialog.qml
         gui/dialogs/ConfirmDialog.qml
+        gui/dialogs/DialogButton.qml
 
     SOURCES
         backend/mixer/channel.h

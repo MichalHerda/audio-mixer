@@ -6,6 +6,7 @@
 
 #include "backend/mixer/channellistmodel.h"
 #include "backend/mixer/channel.h"
+#include "backend/mixer/eq.h"
 #include "backend/project/projectserializer.h"
 
 class AppController : public QObject
@@ -25,15 +26,17 @@ public slots:
     void handleAction(const QString& actionId, int trackIndex = -1);
 
     void newProject();
+    void closeProject();
     bool openProject(const QString& path);
     bool saveProject(const QString& path);
+
+    void discardChanges();
 
     void addAudioTrack(int index);
     void deleteTrack(int index);
 
 private:
     void loadMockupProject();
-    void closeProject();
     void loadSettings();
     void saveSettings();
     void markProjectDirty();
@@ -50,6 +53,7 @@ signals:
     void mixerModelChanged();
     void projectDirtyChanged();
     void requestOpenProject();
+    void requestCloseProject();
     void requestSaveProject();
     void requestNewProject();
 

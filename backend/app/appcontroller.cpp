@@ -24,7 +24,7 @@ bool AppController::projectDirty() const
 void AppController::handleAction(const QString &actionId, int trackIndex)
 {
     if (actionId == "close_project") {
-        closeProject();
+        emit requestCloseProject();
     }
     else if (actionId == "add_audio_track") {
         addAudioTrack(trackIndex);
@@ -73,6 +73,7 @@ bool AppController::openProject(const QString& path)
     }
 
     m_projectName = project.name;
+    m_loadingProject = false;
     m_projectDirty = false;
     emit projectDirtyChanged();
     return true;
@@ -96,6 +97,15 @@ bool AppController::saveProject(const QString& path)
     m_projectDirty = false;
     emit projectDirtyChanged();
     return true;
+}
+
+void AppController::discardChanges()
+{
+    if (!m_projectDirty)
+        return;
+
+    m_projectDirty = false;
+    emit projectDirtyChanged();
 }
 
 void AppController::addAudioTrack(int insertAfter)
@@ -168,8 +178,12 @@ void AppController::saveSettings()
 
 void AppController::markProjectDirty()
 {
-    if (m_loadingProject || m_projectDirty)
+    qDebug() << "make project dirty ";
+
+    if (m_loadingProject || m_projectDirty) {
+        qDebug() << "make project dirty return";
         return;
+    }
 
     m_projectDirty = true;
     emit projectDirtyChanged();
@@ -180,6 +194,8 @@ void AppController::registerChannel(Channel *channel)
     if (!channel)
         return;
 
+    auto* eq = channel->eq();
+
     connect(channel, &Channel::volumeChanged, this, &AppController::markProjectDirty);
     connect(channel, &Channel::gainChanged, this, &AppController::markProjectDirty);
     connect(channel, &Channel::panChanged,    this, &AppController::markProjectDirty);
@@ -187,4 +203,8 @@ void AppController::registerChannel(Channel *channel)
     connect(channel, &Channel::soloChanged,   this, &AppController::markProjectDirty);
     connect(channel, &Channel::nameChanged,   this, &AppController::markProjectDirty);
     connect(channel, &Channel::sourceChanged, this, &AppController::markProjectDirty);
+    connect(eq, &EQ::lowChanged,  this, &AppController::markProjectDirty);
+    connect(eq, &EQ::midChanged,  this, &AppController::markProjectDirty);
+    connect(eq, &EQ::highChanged, this, &AppController::markProjectDirty);
+
 }
