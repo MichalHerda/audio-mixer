@@ -142,15 +142,4 @@ Rectangle {
         selectedChannelIndex = -1
         backgroundSelected = false
     }
-/*
-    Timer {
-        id: debugTimer
-        interval: 5000
-        repeat: true
-        running: true
-        onTriggered: {
-            console.log("current index: ", selectedChannelIndex )
-        }
-    }
-*/
 }

@@ -11,6 +11,7 @@ Rectangle {
     color: Themes.backgroundColor
     border.color: Themes.borderColor
     property int openIndex: -1
+    property bool hovered: hovered
 
     function activateTile(index, fromClick) {
         // CLICK → toggle
@@ -38,6 +39,7 @@ Rectangle {
             title: "File"
             model: fileModel
             open: header.openIndex === tileIndex
+            headerHovered: header.hovered
 
             onHovered: header.activateTile(tileIndex, false)
             onClicked: header.activateTile(tileIndex, true)
@@ -54,6 +56,7 @@ Rectangle {
             title: "Edit"
             model: editModel
             open: header.openIndex === tileIndex
+            headerHovered: header.hovered
 
             onHovered: header.activateTile(tileIndex, false)
             onClicked: header.activateTile(tileIndex, true)
@@ -69,6 +72,7 @@ Rectangle {
             title: "View"
             model: viewModel
             open: header.openIndex === tileIndex
+            headerHovered: header.hovered
 
             onHovered: header.activateTile(tileIndex, false)
             onClicked: header.activateTile(tileIndex, true)
@@ -84,6 +88,7 @@ Rectangle {
             title: "Track"
             model: trackModel
             open: header.openIndex === tileIndex
+            headerHovered: header.hovered
 
             onHovered: header.activateTile(tileIndex, false)
             onClicked: header.activateTile(tileIndex, true)
@@ -99,6 +104,7 @@ Rectangle {
             title: "Mixer"
             model: mixerModel
             open: header.openIndex === tileIndex
+            headerHovered: header.hovered
 
             onHovered: header.activateTile(tileIndex, false)
             onClicked: header.activateTile(tileIndex, true)
@@ -114,6 +120,7 @@ Rectangle {
             title: "Help"
             model: helpModel
             open: header.openIndex === tileIndex
+            headerHovered: header.hovered
 
             onHovered: header.activateTile(tileIndex, false)
             onClicked: header.activateTile(tileIndex, true)

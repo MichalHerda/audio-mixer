@@ -12,6 +12,7 @@ Item {
     property var model
 
     property bool open: false
+    property bool headerHovered: false
 
     signal optionTriggered(string optionId)
     signal clicked()
@@ -83,5 +84,42 @@ Item {
                 }
             }
         }
+    }
+
+    MouseArea {
+        id: globalMouseTracker
+        parent: Overlay.overlay
+        enabled: !headerHovered
+        anchors.fill: parent
+        hoverEnabled: true
+        acceptedButtons: Qt.NoButton
+        visible: popup.visible
+
+        onPositionChanged: function(mouse) {
+            if (!popup.visible)
+                return
+
+            if (tile.isCursorFarEnough(mouse.x, mouse.y)) {
+                popup.close()
+            }
+        }
+    }
+
+    function isCursorFarEnough(globalX, globalY) {
+        const popupW = popup.width
+        const popupH = popup.height
+
+        const tilePos = tile.mapToItem(null, 0, 0)
+        const popupPos = { x: popup.x, y: popup.y }
+
+        const left   = Math.min(tilePos.x, popupPos.x) - popupW
+        const right  = Math.max(tilePos.x + tile.width, popupPos.x + popup.width) + popupW
+        const top    = Math.min(tilePos.y, popupPos.y) - popupH
+        const bottom = Math.max(tilePos.y + tile.height, popupPos.y + popup.height) + popupH
+
+        return globalX < left
+            || globalX > right
+            || globalY < top
+            || globalY > bottom
     }
 }

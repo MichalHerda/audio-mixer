@@ -30,6 +30,12 @@ Window {
                 console.log("Menu action:", id)
                 appController.handleAction(id)
             }
+
+            HoverHandler {
+                onHoveredChanged: {
+                    appHeader.hovered = hovered
+                }
+            }
         }
 
         Transport {
@@ -107,16 +113,6 @@ Window {
                 console.log("SAVE:", path)
                 appController.saveProject(path)
             }
-        }
-    }
-
-    Timer {
-        id: debugTimer
-        interval: 5000
-        repeat: true
-        running: true
-        onTriggered: {
-            console.log("project dirty: ", appController.projectDirty )
         }
     }
 }
